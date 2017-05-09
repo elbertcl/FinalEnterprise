@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+<!--    <bean class="controller.LoginController" id="loginKey"/>
+    <bean class="controller.helloController" id="helloKey"/>
+    <bean class="controller.UserController" id="userKey"/>-->
+
+    <!--
+    Most controllers will use the ControllerClassNameHandlerMapping above, but
+    for the index controller we are using ParameterizableViewController, so we must
+    define an explicit mapping for it.
+    -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="index.htm">indexController</prop>
+                <prop key="index_applicant.htm">indexApplicantController</prop>
+                <prop key="index_admin.htm">indexAdminController</prop>
+                
+                <prop key="list_of_applicants.htm">listOfApplicantsController</prop>
+                <prop key="manage_test_questions.htm">manageTestQuestionsController</prop>
+                <prop key="manage_interview_time.htm">manageInterviewTimeController</prop>
+                <prop key="set_recruitment_result.htm">setRecruitmentResultController</prop>
+                
+                <prop key="login_hrm.htm">loginHRMController</prop>
+                <prop key="login_admin.htm">loginAdminController</prop>
+                <prop key="login_applicant.htm">loginApplicantController</prop>
+                
+                <prop key="edit_account.htm">editAccountController</prop>
+                
+                <prop key="manage_training.htm">manageTrainingController</prop>
+                <prop key="training_assignment.htm">trainingAssignmentController</prop>
+                <prop key="employee_on_training.htm">employeeOnTrainingController</prop>
+                <prop key="training_history.htm">trainingHistoryController</prop>
+                
+                <prop key="manage_employee.htm">manageEmployeeController</prop>
+                <prop key="manage_position.htm">managePositionController</prop>
+                
+                <prop key="employee_benefit.htm">employeeBenefitController</prop>
+                <prop key="manage_position_benefit.htm">managePositionBenefitController</prop>
+                
+                <prop key="employee_dismissal.htm">employeeDismissalController</prop>
+                <prop key="dismissal_list.htm">dismissalListController</prop>
+                <prop key="manage_dismissal_fee.htm">manageDismissalFeeController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp" />
+    
+    <mvc:resources mapping="/resources/**" location="/resources/"
+	cache-period="31556926"/>
+
+    <mvc:annotation-driven />
+
+    <!--
+    The index controller.
+    -->
+    <bean name="indexController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="index" />
+    
+    <bean name="indexApplicantController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="index_applicant" />
+    
+    <bean name="listOfApplicantsController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="list_of_applicants" />
+    
+    <bean name="manageTestQuestionsController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_test_questions" />
+    
+    <bean name="manageInterviewTimeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_interview_time" />
+    
+    <bean name="setRecruitmentResultController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="set_recruitment_result" />
+    
+    <bean name="indexAdminController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="index_admin" />
+    
+    <bean name="loginHRMController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="login_hrm" />
+    
+    <bean name="loginAdminController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="login_admin" />
+    
+    <bean name="loginApplicantController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="login_applicant" />
+    
+    <bean name="manageTrainingController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_training" />
+    
+    <bean name="trainingAssignmentController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="training_assignment" />
+    
+    <bean name="employeeOnTrainingController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="employee_on_training" />
+    
+    <bean name="trainingHistoryController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="training_history" />
+    
+    <bean name="manageEmployeeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_employee" />
+    
+    <bean name="managePositionController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_position" />
+    
+    <bean name="employeeBenefitController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="employee_benefit" />
+    
+    <bean name="managePositionBenefitController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_position_benefit" />
+    
+    <bean name="employeeDismissalController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="employee_dismissal" />
+    
+    <bean name="dismissalListController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="dismissal_list" />
+    
+    <bean name="manageDismissalFeeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_dismissal_fee" />
+    
+    <bean name="editAccountController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="edit_account" />
+
+</beans>
