@@ -135,8 +135,8 @@
                           <td><button class='btn btn-success'>Accept</button><button class='btn btn-danger'>Reject</button></td>
                         </tr>
                         
+                        
                         <tr>
-                          <tr>
                           <td>2</td>
                           <td>Matthew</td>
                           <td>Male</td>
@@ -147,8 +147,8 @@
                           <td><button class='btn btn-success'>Accept</button><button class='btn btn-danger'>Reject</button></td>
                         </tr>
                         
+                        
                         <tr>
-                          <tr>
                           <td>3</td>
                           <td>Williams</td>
                           <td>Male</td>

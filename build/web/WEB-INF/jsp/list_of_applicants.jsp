@@ -122,7 +122,7 @@
                       </thead>
 
                       <tbody>
-                          <tr>
+                        <tr>
                           <td>1</td>
                           <td>Jeremy</td>
                           <td>Male</td>
@@ -131,8 +131,8 @@
                           <td><button class='btn btn-danger'>Delete</button></td>
                         </tr>
                         
+                        
                         <tr>
-                          <tr>
                           <td>2</td>
                           <td>Matthew</td>
                           <td>Male</td>
@@ -141,8 +141,8 @@
                           <td><button class='btn btn-danger'>Delete</button></td>
                         </tr>
                         
+                        
                         <tr>
-                          <tr>
                           <td>3</td>
                           <td>Williams</td>
                           <td>Male</td>
@@ -227,87 +227,6 @@
                           </div>
                         </div>
                       </div>-->
-                      
-                      <!-- Edit Modal -->
-                      <div id="editModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-<!--                           Modal content-->
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit Employee</h4>
-                            </div>
-
-                            <div class="modal-body">
-                              <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
-                                  <h4>Position Info</h4>
-                                  
-                                  <div class='form-group'>
-                                      <p>Division:
-                                      <select style="margin-top:7px; width:150px">
-                                            <option>Production</option>
-                                            <option>Sales</option>
-                                            <option>Marketing</option>
-                                        </select>
-                                      </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'><br><br>
-                                  
-                                  <div class='form-group'>
-                                      <p>Position:
-                                      <select style="margin-top:7px; width:150px">
-                                            <option>Packaging</option>
-                                            <option>Sample</option>
-                                            <option>Sample</option>
-                                        </select>
-                                      </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'>
-                                    
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-<!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                              </form>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>
