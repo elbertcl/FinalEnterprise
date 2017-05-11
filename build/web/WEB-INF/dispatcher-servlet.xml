@@ -18,6 +18,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    <bean class="controller.LoginHRMController" id="LoginHRMController"/>
 <!--    <bean class="controller.LoginController" id="loginKey"/>
     <bean class="controller.helloController" id="helloKey"/>
     <bean class="controller.UserController" id="userKey"/>-->
@@ -30,35 +31,35 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.htm">indexController</prop>
-                <prop key="index_applicant.htm">indexApplicantController</prop>
-                <prop key="index_admin.htm">indexAdminController</prop>
+                <prop key="index.htm">IndexController</prop>
+                <prop key="index_applicant.htm">IndexApplicantController</prop>
+                <prop key="index_admin.htm">IndexAdminController</prop>
                 
-                <prop key="list_of_applicants.htm">listOfApplicantsController</prop>
-                <prop key="manage_test_questions.htm">manageTestQuestionsController</prop>
-                <prop key="manage_interview_time.htm">manageInterviewTimeController</prop>
-                <prop key="set_recruitment_result.htm">setRecruitmentResultController</prop>
+                <prop key="list_of_applicants.htm">ListOfApplicantsController</prop>
+                <prop key="manage_test_questions.htm">ManageTestQuestionsController</prop>
+                <prop key="manage_interview_time.htm">ManageInterviewTimeController</prop>
+                <prop key="set_recruitment_result.htm">SetRecruitmentResultController</prop>
                 
-                <prop key="login_hrm.htm">loginHRMController</prop>
-                <prop key="login_admin.htm">loginAdminController</prop>
-                <prop key="login_applicant.htm">loginApplicantController</prop>
+                <prop key="login_hrm.htm">LoginHRMController</prop>
+                <prop key="login_admin.htm">LoginAdminController</prop>
+                <prop key="login_applicant.htm">LoginApplicantController</prop>
                 
-                <prop key="edit_account.htm">editAccountController</prop>
+                <prop key="edit_account.htm">EditAccountController</prop>
                 
-                <prop key="manage_training.htm">manageTrainingController</prop>
-                <prop key="training_assignment.htm">trainingAssignmentController</prop>
-                <prop key="employee_on_training.htm">employeeOnTrainingController</prop>
-                <prop key="training_history.htm">trainingHistoryController</prop>
+                <prop key="manage_training.htm">ManageTrainingController</prop>
+                <prop key="training_assignment.htm">TrainingAssignmentController</prop>
+                <prop key="employee_on_training.htm">EmployeeOnTrainingController</prop>
+                <prop key="training_history.htm">TrainingHistoryController</prop>
                 
-                <prop key="manage_employee.htm">manageEmployeeController</prop>
-                <prop key="manage_position.htm">managePositionController</prop>
+                <prop key="manage_employee.htm">ManageEmployeeController</prop>
+                <prop key="manage_position.htm">ManagePositionController</prop>
                 
-                <prop key="employee_benefit.htm">employeeBenefitController</prop>
-                <prop key="manage_position_benefit.htm">managePositionBenefitController</prop>
+                <prop key="employee_benefit.htm">EmployeeBenefitController</prop>
+                <prop key="manage_position_benefit.htm">ManagePositionBenefitController</prop>
                 
-                <prop key="employee_dismissal.htm">employeeDismissalController</prop>
-                <prop key="dismissal_list.htm">dismissalListController</prop>
-                <prop key="manage_dismissal_fee.htm">manageDismissalFeeController</prop>
+                <prop key="employee_dismissal.htm">EmployeeDismissalController</prop>
+                <prop key="dismissal_list.htm">DismissalListController</prop>
+                <prop key="manage_dismissal_fee.htm">ManageDismissalFeeController</prop>
             </props>
         </property>
     </bean>
@@ -76,91 +77,91 @@
     <!--
     The index controller.
     -->
-    <bean name="indexController"
+    <bean name="IndexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
     
-    <bean name="indexApplicantController"
+    <bean name="IndexApplicantController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index_applicant" />
     
-    <bean name="listOfApplicantsController"
+    <bean name="ListOfApplicantsController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="list_of_applicants" />
     
-    <bean name="manageTestQuestionsController"
+    <bean name="ManageTestQuestionsController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_test_questions" />
     
-    <bean name="manageInterviewTimeController"
+    <bean name="ManageInterviewTimeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_interview_time" />
     
-    <bean name="setRecruitmentResultController"
+    <bean name="SetRecruitmentResultController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="set_recruitment_result" />
     
-    <bean name="indexAdminController"
+    <bean name="IndexAdminController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index_admin" />
     
-    <bean name="loginHRMController"
+<!--    <bean name="LoginHRMController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="login_hrm" />
+          p:viewName="login_hrm" />-->
     
-    <bean name="loginAdminController"
+    <bean name="LoginAdminController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="login_admin" />
     
-    <bean name="loginApplicantController"
+    <bean name="LoginApplicantController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="login_applicant" />
     
-    <bean name="manageTrainingController"
+    <bean name="ManageTrainingController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_training" />
     
-    <bean name="trainingAssignmentController"
+    <bean name="TrainingAssignmentController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="training_assignment" />
     
-    <bean name="employeeOnTrainingController"
+    <bean name="EmployeeOnTrainingController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="employee_on_training" />
     
-    <bean name="trainingHistoryController"
+    <bean name="TrainingHistoryController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="training_history" />
     
-    <bean name="manageEmployeeController"
+    <bean name="ManageEmployeeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_employee" />
     
-    <bean name="managePositionController"
+    <bean name="ManagePositionController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_position" />
     
-    <bean name="employeeBenefitController"
+    <bean name="EmployeeBenefitController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="employee_benefit" />
     
-    <bean name="managePositionBenefitController"
+    <bean name="ManagePositionBenefitController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_position_benefit" />
     
-    <bean name="employeeDismissalController"
+    <bean name="EmployeeDismissalController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="employee_dismissal" />
     
-    <bean name="dismissalListController"
+    <bean name="DismissalListController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="dismissal_list" />
     
-    <bean name="manageDismissalFeeController"
+    <bean name="ManageDismissalFeeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_dismissal_fee" />
     
-    <bean name="editAccountController"
+    <bean name="EditAccountController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="edit_account" />
 

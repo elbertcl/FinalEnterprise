@@ -89,8 +89,7 @@
     <link href="${pageContext.request.contextPath}/resources/build/css/custom.min.css" rel="stylesheet">
  
 <%@include file="include/navigation.jsp" %>
-
-        < <!-- page content -->
+        <!-- page content -->
         <div class="right_col" role="main" style="margin-top:-50px">
           <div class="">
             <div class="row top_tiles">

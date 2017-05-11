@@ -40,6 +40,20 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-reverse-engineering>
-  <schema-selection match-catalog="sph_login"/>
-  <table-filter match-name="users"/>
+  <schema-selection match-catalog="slav"/>
+  <table-filter match-name="activity_log"/>
+  <table-filter match-name="admin"/>
+  <table-filter match-name="applicant"/>
+  <table-filter match-name="benefit"/>
+  <table-filter match-name="dismiss_record"/>
+  <table-filter match-name="division"/>
+  <table-filter match-name="employee"/>
+  <table-filter match-name="hrm"/>
+  <table-filter match-name="interview"/>
+  <table-filter match-name="login_log"/>
+  <table-filter match-name="position"/>
+  <table-filter match-name="test_answer"/>
+  <table-filter match-name="test_question"/>
+  <table-filter match-name="training"/>
+  <table-filter match-name="training_record"/>
 </hibernate-reverse-engineering>
