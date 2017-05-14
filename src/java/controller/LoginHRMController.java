@@ -5,7 +5,11 @@
  */
 package controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.HRM;
 import model.HibernateUtil;
+import model.Login_Log;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -73,11 +78,22 @@ public class LoginHRMController implements Controller{
                 sample.setAttribute("currentHRM_name", listSession.getHrm_name());
                 sample.setAttribute("currentHRM_picture", listSession.getHrm_picture());
                 
+                Login_Log e=new Login_Log();
+                e.setUser_name((String) sample.getAttribute("currentHRM_name"));
+                e.setLogin_log_desc("HRM Logged In");
+                e.setUser_role("HRM");
+                Calendar cal = Calendar.getInstance();
+                e.setDatetime(cal.getTime());
+                session.save(e);
+                session.getTransaction().commit();
+                
                 mv = new ModelAndView("redirect:index.htm");
             }
              mv.addObject("currentHRM", list);
             
             session.getTransaction().commit();
+            session.flush();
+            session.close();
         
         } catch(HibernateException e) {
             e.printStackTrace();

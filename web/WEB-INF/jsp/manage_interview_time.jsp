@@ -77,11 +77,11 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="interviewtimesuccess"){
+        $("#interviewtimesuccess").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="interviewcompletedsuccess"){
+        $("#interviewcompletedsuccess").show();
       }
         });
      </script>
@@ -98,9 +98,13 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="interviewtimesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Interview time successfully submitted. Do not forget to do the interview at your submitted time.</strong>
+            </div>
+            <div id="interviewcompletedsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The interview is stated as completed successfully. You can accept or reject the applicant at the Set Recruitment Result page.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">

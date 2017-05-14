@@ -8,12 +8,14 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Activity_Log;
 import model.Applicant;
 import model.HRM;
 import model.HibernateUtil;
@@ -76,20 +78,28 @@ public class SetRecruitmentResultController implements Controller{
         if("Accept".equals(action))
         {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
+            Calendar cal = Calendar.getInstance();
+            Date currentDate = cal.getTime();
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             
-            Query query = session.createQuery("insert into Employee(employee_name, phone_number, email, date_of_birth, gender, marital_status, position_id) "
-                    + "select a.applicant_name, a.phone_number, a.email, a.date_of_birth, a.gender, a.marital_status, a.position_id from Applicant a where a.applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
+            Query query = session.createQuery("insert into Employee(employee_name, phone_number, email, date_of_birth, gender, marital_status, position_id, employee_start_date) "
+                    + "select a.applicant_name, a.phone_number, a.email, a.date_of_birth, a.gender, a.marital_status, a.position_id, :currentDate from Applicant a where a.applicant_id=:applicant_id").setParameter("applicant_id", applicant_id).setParameter("currentDate", currentDate);
             query.executeUpdate();
             
             Query query2 = session.createQuery("delete from Applicant where applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
             query2.executeUpdate();
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Accepted applicant ID " + applicant_id + " as employee in Set Recruitment Result page");
+            a.setUser_role("HRM");
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:set_recruitment_result.htm");
+            mv = new ModelAndView("redirect:set_recruitment_result.htm?invalid=acceptsuccess");
         }
         else if("Reject".equals(action))
         {
@@ -101,9 +111,17 @@ public class SetRecruitmentResultController implements Controller{
             Query query = session.createQuery("delete from Applicant where applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
             query.executeUpdate();
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Rejected applicant ID " + applicant_id + " in Set Recruitment Result page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:set_recruitment_result.htm");
+            mv = new ModelAndView("redirect:set_recruitment_result.htm?invalid=rejectsuccess");
         }
             
         return mv;

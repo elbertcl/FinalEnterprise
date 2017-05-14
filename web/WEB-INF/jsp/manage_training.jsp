@@ -141,11 +141,7 @@
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">PIC:</label>
                                       <div class="col-sm-9">
-                                          <select name='pic'>
-                                            <option>Sample PIC 1</option>
-                                            <option>Sample PIC 2</option>
-                                            <option>Sample PIC 3</option>
-                                        </select>
+                                          <input type='text' name='pic' class='form-control'>
                                       </div>
                                   </div>
                                   <div class='form-group'>

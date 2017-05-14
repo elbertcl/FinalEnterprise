@@ -23,11 +23,12 @@ public class Employee implements java.io.Serializable {
      private String gender;
      private String marital_status;
      private Integer position_id;
+     private Date employee_start_date;
 
     public Employee() {
     }
 
-    public Employee(Integer employee_id, String employee_name, String phone_number, String email, Date date_of_birth, Integer training_id, String gender, String marital_status, Integer position_id) {
+    public Employee(Integer employee_id, String employee_name, String phone_number, String email, Date date_of_birth, Integer training_id, String gender, String marital_status, Integer position_id, Date employee_start_date) {
         this.employee_id = employee_id;
         this.employee_name = employee_name;
         this.phone_number = phone_number;
@@ -37,8 +38,9 @@ public class Employee implements java.io.Serializable {
         this.gender = gender;
         this.marital_status = marital_status;
         this.position_id = position_id;
+        this.employee_start_date = employee_start_date;
     }
-    
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name="employee_id", unique = true, nullable = false)
@@ -122,6 +124,18 @@ public class Employee implements java.io.Serializable {
     public void setPosition_id(Integer position_id) {
         this.position_id = position_id;
     }
+    
+    @Column(name="employee_start_date")
+    @Temporal(TemporalType.DATE)
+    public Date getEmployee_start_date() {
+        return employee_start_date;
+    }
+
+    public void setEmployee_start_date(Date employee_start_date) {
+        this.employee_start_date = employee_start_date;
+    }
+    
+    
 }
 
 

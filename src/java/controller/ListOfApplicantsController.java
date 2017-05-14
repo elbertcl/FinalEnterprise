@@ -7,13 +7,17 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Activity_Log;
 import model.Applicant;
 import model.HRM;
 import model.HibernateUtil;
+import model.Login_Log;
 import model.Position;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -30,6 +34,7 @@ public class ListOfApplicantsController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = new ModelAndView("list_of_applicants");
+        mv.addObject("display", "none");
         String action = null;
         Integer applicant_id = null;
         
@@ -79,11 +84,21 @@ public class ListOfApplicantsController implements Controller{
             Query query = session.createQuery("delete from Applicant where applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
             query.executeUpdate();
             
+            HttpSession sample = hsr.getSession();
+            Activity_Log e=new Activity_Log();
+            e.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            e.setActivity_log_desc("Deleted applicant from List Of Applicants page");
+            e.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            e.setDatetime(cal.getTime());
+            session.save(e);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:list_of_applicants.htm");
+            mv = new ModelAndView("redirect:list_of_applicants.htm?invalid=deleted");
         }
-            
+        
+        
         return mv;
     }
     

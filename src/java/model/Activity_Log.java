@@ -16,19 +16,19 @@ import javax.persistence.TemporalType;
 public class Activity_Log implements java.io.Serializable {
      private Integer activity_log_id;
      private String user_name;
-     private String role;
+     private String user_role;
      private Date datetime;
-     private String desc;
+     private String activity_log_desc;
 
     public Activity_Log() {
     }
 
-    public Activity_Log(Integer activity_log_id, String user_name, String role, Date datetime, String desc) {
+    public Activity_Log(Integer activity_log_id, String user_name, String user_role, Date datetime, String activity_log_desc) {
         this.activity_log_id = activity_log_id;
         this.user_name = user_name;
-        this.role = role;
+        this.user_role = user_role;
         this.datetime = datetime;
-        this.desc = desc;
+        this.activity_log_desc = activity_log_desc;
     }
     
     @Id
@@ -51,13 +51,13 @@ public class Activity_Log implements java.io.Serializable {
         this.user_name = user_name;
     }
 
-    @Column(name="role")
-    public String getRole() {
-        return role;
+    @Column(name="user_role")
+    public String getUser_role() {
+        return user_role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUser_role(String user_role) {
+        this.user_role = user_role;
     }
 
     @Column(name="datetime", columnDefinition="DATETIME")
@@ -70,13 +70,13 @@ public class Activity_Log implements java.io.Serializable {
         this.datetime = datetime;
     }
 
-    @Column(name="desc")
-    public String getDesc() {
-        return desc;
+    @Column(name="activity_log_desc")
+    public String getActivity_log_desc() {
+        return activity_log_desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setActivity_log_desc(String activity_log_desc) {
+        this.activity_log_desc = activity_log_desc;
     }
     
 }

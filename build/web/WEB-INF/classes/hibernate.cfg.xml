@@ -52,5 +52,7 @@ Contributor(s):
     <mapping class="model.Interview"/>
     <mapping class="model.Test_Answer"/>
     <mapping class="model.Employee"/>
+    <mapping class="model.Activity_Log"/>
+    <mapping class="model.Login_Log"/>
   </session-factory>
 </hibernate-configuration>

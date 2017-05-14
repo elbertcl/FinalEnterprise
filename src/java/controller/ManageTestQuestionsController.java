@@ -7,10 +7,13 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Activity_Log;
 import model.Applicant;
 import model.HRM;
 import model.HibernateUtil;
@@ -34,6 +37,7 @@ public class ManageTestQuestionsController implements Controller{
         String action = null;
         Integer question_id = null;
         String question = null;
+        HttpSession sample = hsr.getSession();
         
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -72,9 +76,17 @@ public class ManageTestQuestionsController implements Controller{
             Query query = session.createQuery("delete from Test_Question where question_id=:question_id").setParameter("question_id", question_id);
             query.executeUpdate();
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Deleted question ID " + question_id  + " in Manage Test Questions page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:manage_test_questions.htm");
+            mv = new ModelAndView("redirect:manage_test_questions.htm?invalid=deletesuccess");
         }
         else if("Add".equals(action))
         {
@@ -91,9 +103,17 @@ public class ManageTestQuestionsController implements Controller{
             e.setQuestion(question);
             session.save(e);
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Added new question in Manage Test Questions page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:manage_test_questions.htm");
+            mv = new ModelAndView("redirect:manage_test_questions.htm?invalid=addsuccess");
         }
         else if("Edit".equals(action))
         {
@@ -107,9 +127,17 @@ public class ManageTestQuestionsController implements Controller{
             query.setParameter("question", question);
             query.executeUpdate();
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Edited question ID " + question_id  + " in Manage Test Questions page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:manage_test_questions.htm");
+            mv = new ModelAndView("redirect:manage_test_questions.htm?invalid=editsuccess");
         }
             
         return mv;

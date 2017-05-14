@@ -77,13 +77,20 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="deletesuccess"){
+        $("#deletesuccess").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="addsuccess"){
+        $("#addsuccess").show();
+      }
+      else if(invalid=="editsuccess"){
+        $("#editsuccess").show();
       }
         });
+        
+        function deleteConfirm() {
+            return confirm('Are you sure you want to delete the question?');
+        }
      </script>
  
   <%@include file="include/navigation.jsp" %>
@@ -133,9 +140,17 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="deletesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Question successfully deleted.</strong>
+            </div>
+            <div id="addsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Question successfully added.</strong>
+            </div>
+            <div id="editsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Question successfully edited.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -162,10 +177,10 @@
                           <form action="manage_test_questions.htm" method="post"> 
                           <td><textarea style="height: 60px; width: 80%; resize: none" required name="question"><c:out value="${list.question}"/></textarea>&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Edit" class='btn btn-success'></td>
                           <input type="hidden" name="question_id" value="${list.question_id}">
-                          </form
+                          </form>
                           
                           <form action="manage_test_questions.htm" method="post"> 
-                          <td><input type="submit" name="action" value="Delete" class='btn btn-danger'></td>
+                          <td><input type="submit" onclick="return deleteConfirm()" name="action" value="Delete" class='btn btn-danger'></td>
                           <input type="hidden" name="question_id" value="${list.question_id}">
                           </form>
                         </tr>

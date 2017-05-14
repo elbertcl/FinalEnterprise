@@ -8,12 +8,14 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Activity_Log;
 import model.Applicant;
 import model.HRM;
 import model.HibernateUtil;
@@ -107,9 +109,17 @@ public class ManageInterviewTimeController implements Controller{
             e.setInterviewer((String) sample.getAttribute("currentHRM_name"));
             session.save(e);
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Submitted interview time for applicant ID " + applicant_id + " in Manage Interview Time page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:manage_interview_time.htm");
+            mv = new ModelAndView("redirect:manage_interview_time.htm?invalid=interviewtimesuccess");
         }
         else if("Interview Completed".equals(action))
         {
@@ -124,9 +134,17 @@ public class ManageInterviewTimeController implements Controller{
             Query query2 = session.createQuery("update Applicant set recruitment_status = 'FinishedInterview' where applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
             query2.executeUpdate();
             
+            Activity_Log a=new Activity_Log();
+            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
+            a.setActivity_log_desc("Completed interview for applicant ID " + applicant_id  + " in Manage Interview Time page");
+            a.setUser_role("HRM");
+            Calendar cal = Calendar.getInstance();
+            a.setDatetime(cal.getTime());
+            session.save(a);
+            
             session.getTransaction().commit();
             
-            mv = new ModelAndView("redirect:manage_interview_time.htm");
+            mv = new ModelAndView("redirect:manage_interview_time.htm?invalid=interviewcompletedsuccess");
         }
             
         return mv;

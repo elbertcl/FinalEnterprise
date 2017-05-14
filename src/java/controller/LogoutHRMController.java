@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.HRM;
 import model.HibernateUtil;
+import model.Login_Log;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -27,7 +29,20 @@ import org.springframework.web.servlet.mvc.Controller;
 public class LogoutHRMController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
         HttpSession sample = hsr.getSession();
+        Login_Log e=new Login_Log();
+        e.setUser_name((String) sample.getAttribute("currentHRM_name"));
+        e.setLogin_log_desc("HRM Logged Out");
+        e.setUser_role("HRM");
+        Calendar cal = Calendar.getInstance();
+        e.setDatetime(cal.getTime());
+        session.save(e);
+        session.getTransaction().commit();
+        
+        
         if (sample != null) {
             sample.invalidate();
         }
