@@ -5,40 +5,34 @@
  */
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.HRM;
 import model.HibernateUtil;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.SessionFactoryUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-/**
- *
- * @author Sera
- */
-public class UserController implements Controller {
-
+public class LogoutHRMController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
-        ModelAndView mv = new ModelAndView("user");
-        String out = "All User Details";
-        try {
-            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
- 
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            
-            mv.addObject("users",session.createQuery("from Users").list());
-            
-            session.getTransaction().commit();
-            
-        
-        } catch(HibernateException e) {
-            e.printStackTrace();
+        HttpSession sample = hsr.getSession();
+        if (sample != null) {
+            sample.invalidate();
         }
-        mv.addObject("message", out);
+        
+        ModelAndView mv = new ModelAndView("redirect:login_hrm.htm");
         return mv;
     }
     

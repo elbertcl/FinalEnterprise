@@ -10,27 +10,30 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.HRM;
 import model.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 public class LoginHRMController implements Controller{
-    
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
         ModelAndView mv = new ModelAndView("login_hrm");
-        // ModelAndView mv = null;
-        String out = "Login Form";
+        String out = null;
         String username = null;
         String password = null;
-        
+
         if (hsr.getParameterMap().containsKey("username")) {
             username = hsr.getParameter("username");
             out = "Please enter valid username and password";
@@ -41,46 +44,45 @@ public class LoginHRMController implements Controller{
         }
         
         try {
-            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-            
-            Session session = sessionFactory.openSession();
             session.beginTransaction();
             
-            String sql = " from HRM where hrm_username='"+username+"' and hrm_password='"+password+"'";
+            String sql = "from HRM where hrm_username=:username and hrm_password=:password";
             
             Query query = session.createQuery(sql);
-            mv.addObject("message", query.getQueryString());
             query.setParameter("username", username);
             query.setParameter("password", password);
             
-            List list = query.list(); // PROBLEM
-//            List<HRM> list = session.createQuery(sql).list();
-//            list = (HRM)query.uniqueResult();
-
-            mv.addObject("message", out);
+            List list = query.list();
             
             if(list.isEmpty())
             {
                 // Go back to the Login screen (username - password combination not found)
                 mv = new ModelAndView("login_hrm");
+                if(password != null && username != null)
+                    mv.addObject("message", out);
             }
             else{
-                Cookie cookie = new Cookie("username",username);
-		cookie.setMaxAge(60*60); //1 hour
-		hsr1.addCookie(cookie);
-                mv.addObject("message", "successful");
-                //hsr1.sendRedirect("http://localhost:8084/SpringHibernate/hello.htm");
+                HRM listSession = (HRM) query.uniqueResult();
+//                Cookie cookie = new Cookie("username",username);
+//		cookie.setMaxAge(60*60); //1 hour
+//		hsr1.addCookie(cookie);
+                HttpSession sample = hsr.getSession();
+                sample.setAttribute("currentHRM_id", listSession.getHrm_id());
+                sample.setAttribute("currentHRM_username", listSession.getHrm_username());
+                sample.setAttribute("currentHRM_password", listSession.getHrm_password());
+                sample.setAttribute("currentHRM_name", listSession.getHrm_name());
+                sample.setAttribute("currentHRM_picture", listSession.getHrm_picture());
+                
                 mv = new ModelAndView("redirect:index.htm");
-                //mv = new ModelAndView("hello");
             }
-            // mv.addObject("logins", list);
+             mv.addObject("currentHRM", list);
             
             session.getTransaction().commit();
         
         } catch(HibernateException e) {
             e.printStackTrace();
         }
-        
+  
         return mv;
     }
     

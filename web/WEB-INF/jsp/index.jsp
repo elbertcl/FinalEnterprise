@@ -90,21 +90,21 @@
  
 <%@include file="include/navigation.jsp" %>
         <!-- page content -->
-        <div class="right_col" role="main" style="margin-top:-50px">
+        <div class="right_col" role="main">
           <div class="">
             <div class="row top_tiles">
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-user"></i></div>
                   <div class="count">179</div>
-                  <h3>Employees</h3>
+                  <h3>Employees ${test}</h3>
                   <p>total in the company.</p>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-briefcase"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">${numberOfApplicants}</div>
                   <h3>Applicants</h3>
                   <p>waiting for recruitment processing.</p>
                 </div>

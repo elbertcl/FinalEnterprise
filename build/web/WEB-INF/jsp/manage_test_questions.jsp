@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="include/header.jsp" %>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
@@ -109,46 +110,18 @@
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data"> 
+                              <form action="manage_test_questions.htm" method="post" class="contact_form"> 
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Question:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='question' class='form-control'>
+                                          <input type='text' name='question' class='form-control' required>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                    <input type="submit" value="Submit" class='btn btn-success'>
+                                    <input type="submit" name="action" value="Add" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
@@ -182,13 +155,22 @@
                       </thead>
 
                       <tbody>
+                      <c:forEach items="${testquestionlist}" var="list" varStatus="status">
                           <tr>
-                          <td>1</td>
-                          <td><textarea style="height: 60px; width: 80%; resize: none">This is a sample question. This is a sample question. This is a sample question.</textarea>&nbsp;&nbsp;&nbsp;<button class='btn btn-success'>Update</button></td>
-                          <td><button class='btn btn-danger'>Delete</button></td>
+                          <td><c:out value="${list.question_id}"/></td>
+                          
+                          <form action="manage_test_questions.htm" method="post"> 
+                          <td><textarea style="height: 60px; width: 80%; resize: none" required name="question"><c:out value="${list.question}"/></textarea>&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Edit" class='btn btn-success'></td>
+                          <input type="hidden" name="question_id" value="${list.question_id}">
+                          </form
+                          
+                          <form action="manage_test_questions.htm" method="post"> 
+                          <td><input type="submit" name="action" value="Delete" class='btn btn-danger'></td>
+                          <input type="hidden" name="question_id" value="${list.question_id}">
+                          </form>
                         </tr>
-                        
-                        <tr>
+                      </c:forEach>   
+<!--                        <tr>
                           <td>2</td>
                           <td><textarea style="height: 60px; width: 80%; resize: none">This is a sample question. This is a sample question. This is a sample question.</textarea>&nbsp;&nbsp;&nbsp;<button class='btn btn-success'>Update</button></td>
                           <td><button class='btn btn-danger'>Delete</button></td>
@@ -198,37 +180,7 @@
                           <td>3</td>
                           <td><textarea style="height: 60px; width: 80%; resize: none">This is a sample question. This is a sample question. This is a sample question.</textarea>&nbsp;&nbsp;&nbsp;<button class='btn btn-success'>Update</button></td>
                           <td><button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
+                        </tr>-->
                       
                       <!-- Edit Division Modal -->
                       <div id="editDivisionModal" class="modal fade" role="dialog">
@@ -251,34 +203,6 @@
                                           <input type='text' name='divisionname' class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">

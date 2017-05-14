@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -83,6 +84,11 @@
         $("#modified").show();
       }
         });
+        
+        
+        function deleteConfirm() {
+            return confirm('Are you sure you want to delete the applicant?');
+        }
      </script>
  
   <%@include file="include/navigation.jsp" %>
@@ -92,7 +98,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>List of Applicants</h3>
+                <h3>List of Applicants ${test}</h3>
               </div>
             </div>
 
@@ -116,23 +122,29 @@
                           <th>Name</th>
                           <th>Gender</th>
                           <th>Marital Status</th>
-                          <th>Age</th>
+                          <th>Date Of Birth</th>
+                          <th>Proposed Position</th>
                           <th>Action</th>
                         </tr>
                       </thead>
 
                       <tbody>
+                      <c:forEach items="${applicantslist}" var="list" varStatus="status">
                         <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>Male</td>
-                          <td>Single</td>
-                          <td>20</td>
-                          <td><button class='btn btn-danger'>Delete</button></td>
+                            <td><c:out value="${list.applicant_id}"/></td>
+                            <td><c:out value="${list.applicant_name}"/></td>
+                            <td><c:out value="${list.gender}"/></td>
+                            <td><c:out value="${list.marital_status}"/></td>
+                            <td><c:out value="${list.date_of_birth}"/></td>
+                            <td><c:out value="${positionlist[status.index].position_name}"/></td>
+                          <form action="list_of_applicants.htm" method="post">
+                            <td><input type="submit" onclick="return deleteConfirm()" name="action" value="Delete" class='btn btn-danger'></td>
+                            <input type="hidden" name="applicant_id" value="${list.applicant_id}">
+                            </form>
                         </tr>
+                      </c:forEach> 
                         
-                        
-                        <tr>
+<!--                        <tr>
                           <td>2</td>
                           <td>Matthew</td>
                           <td>Male</td>
@@ -149,7 +161,9 @@
                           <td>Single</td>
                           <td>20</td>
                           <td><button class='btn btn-danger'>Delete</button></td>
-                        </tr>
+                        </tr>-->
+
+
                       <!-- <?php
                           $query=mysql_query("SELECT * FROM advert");
                           $row=mysql_fetch_array($query, MYSQL_ASSOC);

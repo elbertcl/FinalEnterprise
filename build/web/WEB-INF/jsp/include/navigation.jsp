@@ -27,8 +27,8 @@
 											echo "images/defaultadmin.png";
 										}
 									}
-									?>" alt="..." class="img-circle profile_img">-->
-                    <img src="${pageContext.request.contextPath}/resources/images/defaultadmin.png" alt="..." class="img-circle profile_img">                                                     
+									?>" alt="..." class="img-circle profile_img">-->                                                      
+                    <img src="${pageContext.request.contextPath}/resources/images/<%= session.getAttribute("currentHRM_picture") %>" alt="..." class="img-circle profile_img">                                                     
               </div>
               <div class="profile_info">
 <!--                <span>Welcome,</span>
@@ -39,7 +39,7 @@
 									} 
 									?></h2>-->
                      <span>Welcome,</span>
-                     <h2> elbertcl</h2>                                                    
+                     <h2> <%= session.getAttribute("currentHRM_name") %></h2>                                                    
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -128,7 +128,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="login_hrm.htm">Log Out</a>
+                  <a href="logout_hrm.htm">Log Out</a>
                 </li>
               </ul>
             </nav>

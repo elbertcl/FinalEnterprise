@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -116,7 +117,7 @@
                           <th>Name</th>
                           <th>Gender</th>
                           <th>Marital Status</th>
-                          <th>Age</th>
+                          <th>Date Of Birth</th>
                           <th>Test Result</th>
                           <th>Interview Time</th>
                           <th>Download CV</th>
@@ -125,119 +126,66 @@
                       </thead>
 
                       <tbody>
+                        <c:forEach items="${applicantslist}" var="list" varStatus="status">
                         <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>Male</td>
-                          <td>Single</td>
-                          <td>20</td>
-                          <td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal'>Show</button></td>
-                          <td><input type="datetime-local" name="interviewtime">&nbsp;&nbsp;&nbsp;<button class='btn btn-success'>Submit</button></td>
-                          <td><button class='btn btn-primary'>Download</button></td>
-                          <td>Awaiting interview time submission.</td>
-                        </tr>
+                            <td><c:out value="${list.applicant_id}"/></td>
+                            <td><c:out value="${list.applicant_name}"/></td>
+                            <td><c:out value="${list.gender}"/></td>
+                            <td><c:out value="${list.marital_status}"/></td>
+                            <td><c:out value="${list.date_of_birth}"/></td>
+                            <td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal${list.applicant_id}'>Show</button></td>
+                            
+                            <c:if test="${list.recruitment_status == 'TestQuestionDone'}">
+                                <form action="manage_interview_time.htm" method="post"> 
+                                    <td><input type="datetime-local" name="datetime" required>&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Submit Time" class='btn btn-success'></td>
+                                    <input type="hidden" name="applicant_id" value="${list.applicant_id}">
+                                </form>
                         
-                        <tr>
-                          <td>2</td>
-                          <td>Matthew</td>
-                          <td>Male</td>
-                          <td>Single</td>
-                          <td>20</td>
-                          <td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal'>Show</button></td>
-                          <td>10/27/2017 12:00</td>
-                          <td><button class='btn btn-primary'>Download</button></td>
-                          <td><button class='btn btn-primary'>Interview Completed</button></td>
+                                <td><a href="${pageContext.request.contextPath}/resources/cv/${list.cv}" target="_blank"><button class='btn btn-primary'>Download</button></a></td>
+                                <td>Awaiting interview time submission.</td>
+                            </c:if>
+                                
+                            <c:if test="${list.recruitment_status == 'OnInterview'}">
+                                <c:forEach items="${interviewlist}" var="test2" varStatus="status2">
+                                    <c:if test="${list.applicant_id == test2.applicant_id}">
+                                        <td><c:out value="${test2.datetime}"/></td>
+                                    </c:if>
+                                </c:forEach> 
+                                <td><a href="${pageContext.request.contextPath}/resources/cv/${list.cv}" target="_blank"><button class='btn btn-primary'>Download</button></a></td>
+                                <form action="manage_interview_time.htm" method="post"> 
+                                    <td><input type="submit" name="action" value="Interview Completed" class='btn btn-primary'></td>
+                                    <input type="hidden" name="applicant_id" value="${list.applicant_id}">
+                                </form>
+                            </c:if>
                         </tr>
-                        
-                        <tr>
-                          <td>3</td>
-                          <td>Williams</td>
-                          <td>Male</td>
-                          <td>Single</td>
-                          <td>20</td>
-                          <td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal'>Show</button></td>
-                          <td><input type="datetime-local" name="interviewtime">&nbsp;&nbsp;&nbsp;<button class='btn btn-success'>Submit</button></td>
-                          <td><button class='btn btn-primary'>Download</button></td>
-                          <td>Awaiting interview time submission.</td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
 
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
                       <!-- View Modal -->
-                      <div id="viewModal" class="modal fade" role="dialog">
+                      <div id="viewModal${list.applicant_id}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
 <!--                           Modal content-->
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Employee's Benefit</h4>
+                              <h4 class="modal-title">${list.applicant_name}'s Test Result</h4>
                             </div>
                             <div class="modal-body">
                               <div class="form-horizontal">
                                 <div class="form-group">
-                                    <h4>Question ID 1</h4>
-                                    <p>This is a sample question. This is a sample question. This is a sample question.</p>
-                                    <p><b>Answer: </b>This is a sample answer. This is a sample answer. This is a sample answer.</p><br>
-                                    
-                                    <h4>Question ID 2</h4>
+                                    <c:forEach items="${answerlist}" var="test" varStatus="status2">
+                                         <c:if test="${list.applicant_id == test.applicant_id}">
+                                            <h4>Question ID <c:out value="${test.question_id}"/></h4>
+                                            <p><c:out value="${questionlist[status2.index].question}"/></p>
+                                            <p><b>Answer: </b> <c:out value="${test.answer}"/></p><br>
+                                        </c:if>
+                                    </c:forEach> 
+<!--                                    <h4>Question ID 2</h4>
                                     <p>This is a sample question. This is a sample question. This is a sample question.</p>
                                     <p><b>Answer: </b>This is a sample answer. This is a sample answer. This is a sample answer.</p><br>
                                     
                                     <h4>Question ID 3</h4>
                                     <p>This is a sample question. This is a sample question. This is a sample question.</p>
-                                    <p><b>Answer: </b>This is a sample answer. This is a sample answer. This is a sample answer.</p><br>
-<!--                                <?php
-                                  $query_message = mysql_query("SELECT * FROM advert WHERE advertID = {$row['advertID']}");
-                                  $row_message = mysql_fetch_array($query_message, MYSQL_ASSOC);
-                                    if($row_message['type'] == 'banner')
-                                    {
-                                      echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='100%'></center>";
-                                    }
-                                    else if($row_message['type'] == 'square')
-                                    {
-                                      // Video
-                                      if(strpos($row_message['photo'], 'mp4') == true || strpos($row_message['photo'], 'webm') == true  || strpos($row_message['photo'], 'ogg') == true )
-                                      {
-                                          echo "<video width='100%' height = '100%' loop controls>"; 
-                                          echo "<source src='../../menitnews/images/{$row_message['photo']}'></video>";
-                                      }
-                                      // Picture
-                                      else
-                                      {
-                                          echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='60%' align='middle'></center>";
-                                      }
-                                      
-                                    }
-                                ?>-->
+                                    <p><b>Answer: </b>This is a sample answer. This is a sample answer. This is a sample answer.</p><br>-->
                                 </div>
                               </div>
                             </div>
@@ -247,6 +195,7 @@
                           </div>
                         </div>
                       </div>
+                        </c:forEach> 
                       
                       <!-- Edit Modal -->
                       <div id="editModal" class="modal fade" role="dialog">
@@ -283,35 +232,6 @@
                                         </select>
                                       </p>
                                   </div><input type="submit" value="Update" class='btn btn-success'>
-                                    
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -322,12 +242,6 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>

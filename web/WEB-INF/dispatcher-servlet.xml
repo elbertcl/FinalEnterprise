@@ -18,10 +18,13 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    <bean class="controller.IndexController" id="IndexController"/>
     <bean class="controller.LoginHRMController" id="LoginHRMController"/>
-<!--    <bean class="controller.LoginController" id="loginKey"/>
-    <bean class="controller.helloController" id="helloKey"/>
-    <bean class="controller.UserController" id="userKey"/>-->
+    <bean class="controller.LogoutHRMController" id="LogoutHRMController"/>
+    <bean class="controller.ListOfApplicantsController" id="ListOfApplicantsController"/>
+    <bean class="controller.ManageTestQuestionsController" id="ManageTestQuestionsController"/>
+    <bean class="controller.ManageInterviewTimeController" id="ManageInterviewTimeController"/>
+    <bean class="controller.SetRecruitmentResultController" id="SetRecruitmentResultController"/>
 
     <!--
     Most controllers will use the ControllerClassNameHandlerMapping above, but
@@ -43,6 +46,8 @@
                 <prop key="login_hrm.htm">LoginHRMController</prop>
                 <prop key="login_admin.htm">LoginAdminController</prop>
                 <prop key="login_applicant.htm">LoginApplicantController</prop>
+                
+                <prop key="logout_hrm.htm">LogoutHRMController</prop>
                 
                 <prop key="edit_account.htm">EditAccountController</prop>
                 
@@ -72,38 +77,39 @@
     <mvc:resources mapping="/resources/**" location="/resources/"
 	cache-period="31556926"/>
 
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
 
     <!--
-    The index controller.
+    The initial layout view controllers.
     -->
-    <bean name="IndexController"
+    
+<!--    <bean name="IndexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />
+          p:viewName="index" />-->
     
     <bean name="IndexApplicantController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index_applicant" />
     
-    <bean name="ListOfApplicantsController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="list_of_applicants" />
-    
-    <bean name="ManageTestQuestionsController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_test_questions" />
-    
-    <bean name="ManageInterviewTimeController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_interview_time" />
-    
-    <bean name="SetRecruitmentResultController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="set_recruitment_result" />
-    
     <bean name="IndexAdminController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index_admin" />
+    
+<!--    <bean name="ListOfApplicantsController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="list_of_applicants" />-->
+    
+<!--    <bean name="ManageTestQuestionsController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_test_questions" />-->
+    
+<!--    <bean name="ManageInterviewTimeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="manage_interview_time" />-->
+    
+<!--    <bean name="SetRecruitmentResultController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="set_recruitment_result" />-->
     
 <!--    <bean name="LoginHRMController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
