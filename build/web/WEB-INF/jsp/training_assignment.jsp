@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,11 +77,11 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="invalidtime"){
+        $("#invalidtime").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="assignsuccess"){
+        $("#assignsuccess").show();
       }
         });
      </script>
@@ -97,9 +98,13 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="invalidtime" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Invalid training chosen: the training's start date has already passed.</strong>
+            </div>
+            <div id="assignsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The employee has been successfully asigned to the training.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -122,26 +127,32 @@
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${employeelist}" var="list" varStatus="status">
                           <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>2017/3/10</td>
+                          <td><c:out value="${list.employee_id}"/></td>
+                          <td><c:out value="${list.employee_name}"/></td>
+                          <td><c:out value="${list.employee_start_date}"/></td>
+                          <td><c:out value="${divisionlist[status.index].division_name}"/></td>
+                          <td><c:out value="${positionlist[status.index].position_name}"/></td>
                           <td>
-                              Production
+                              <form action="training_assignment.htm" method="post">
+                                <select name='training_id' required>
+                                    <c:forEach items="${traininglist}" var="traininglist" varStatus="status2">
+                                      <c:if test="${list.position_id == traininglist.position_id}">
+                                          <option value="${traininglist.training_id}"><c:out value="${traininglist.training_name}"/></option>
+                                      </c:if>
+                                    </c:forEach>
+  <!--                                    <option>Sample Training 2</option>
+                                      <option>Sample Training 3</option>-->
+                                  </select>&nbsp;&nbsp;&nbsp;
+                                  <input type="hidden" name="employee_id" value="${list.employee_id}">
+                                <input type="submit" name="action" value="Assign" class='btn btn-success'>
+                              </form>
                           </td>
-                          <td>
-                              Packaging
-                          </td>
-                          <td>
-                              <select name='trainingname'>
-                                    <option>Sample Training 1</option>
-                                    <option>Sample Training 2</option>
-                                    <option>Sample Training 3</option>
-                                </select>&nbsp;&nbsp;&nbsp;
-                              <button class='btn btn-success'>Assign</button></td>
                         </tr>
+                        </c:forEach>
                         
-                        <tr>
+<!--                        <tr>
                           <td>2</td>
                           <td>Matthew</td>
                           <td>2017/3/10</td>
@@ -177,84 +188,8 @@
                                     <option>Sample Training 3</option>
                                 </select>&nbsp;&nbsp;&nbsp;
                               <button class='btn btn-success'>Assign</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
+                        </tr>-->
                       
-                      <!-- View Modal -->
-<!--                      <div id="viewModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                           Modal content
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Employee's Benefit</h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="form-horizontal">
-                                <div class="form-group">
-                                    <p style="font-size:16px">This is a benefit list example. This is a benefit list example.This is a benefit list example. This is a benefit list example.</p>
-                                <?php
-                                  $query_message = mysql_query("SELECT * FROM advert WHERE advertID = {$row['advertID']}");
-                                  $row_message = mysql_fetch_array($query_message, MYSQL_ASSOC);
-                                    if($row_message['type'] == 'banner')
-                                    {
-                                      echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='100%'></center>";
-                                    }
-                                    else if($row_message['type'] == 'square')
-                                    {
-                                      // Video
-                                      if(strpos($row_message['photo'], 'mp4') == true || strpos($row_message['photo'], 'webm') == true  || strpos($row_message['photo'], 'ogg') == true )
-                                      {
-                                          echo "<video width='100%' height = '100%' loop controls>"; 
-                                          echo "<source src='../../menitnews/images/{$row_message['photo']}'></video>";
-                                      }
-                                      // Picture
-                                      else
-                                      {
-                                          echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='60%' align='middle'></center>";
-                                      }
-                                      
-                                    }
-                                ?>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>-->
                       
                       <!-- Edit Modal -->
                       <div id="editModal" class="modal fade" role="dialog">
@@ -280,7 +215,7 @@
                                             <option>Marketing</option>
                                         </select>
                                       </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'><br><br>
+                                  </div><input type="submit" value="Update Division" class='btn btn-success'><br><br>
                                   
                                   <div class='form-group'>
                                       <p>Position:
@@ -290,36 +225,8 @@
                                             <option>Sample</option>
                                         </select>
                                       </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'>
+                                  </div><input type="submit" value="Update Position" class='btn btn-success'>
                                     
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -330,12 +237,6 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>

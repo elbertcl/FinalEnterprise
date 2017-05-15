@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,13 +77,17 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="invalidbirthdate"){
+        $("#invalidbirthdate").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="updatesuccess"){
+        $("#updatesuccess").show();
       }
         });
+        
+        function updateConfirm() {
+            return confirm('Are you sure you want to update the employee data?');
+        }
      </script>
  
   <%@include file="include/navigation.jsp" %>
@@ -97,9 +102,13 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="invalidbirthdate" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Invalid birth date inputted, please input a birth date that does not exceed the current date.</strong>
+            </div>
+            <div id="updatesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The employee's data has been updated.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -114,6 +123,11 @@
                         <tr>
                           <th style="width:8%">Employee ID</th>
                           <th>Name</th>
+                          <th>Gender</th>
+                          <th>Phone Number</th>
+                          <th>Email</th>
+                          <th>Marital Status</th>
+                          <th>Date Of Birth</th>
                           <th>Employee Since</th>
                           <th>Division</th>
                           <th>Position</th>
@@ -122,124 +136,27 @@
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${employeelist}" var="list" varStatus="status">
                           <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>2017/3/10</td>
+                          <td><c:out value="${list.employee_id}"/></td>
+                          <td><c:out value="${list.employee_name}"/></td>
+                          <td><c:out value="${list.gender}"/></td>
+                          <td><c:out value="${list.phone_number}"/></td>
+                          <td><c:out value="${list.email}"/></td>
+                          <td><c:out value="${list.marital_status}"/></td>
+                          <td><c:out value="${list.date_of_birth}"/></td>
+                          <td><c:out value="${list.employee_start_date}"/></td>
                           <td>
-                              Production
+                              <c:out value="${divisionlist[status.index].division_name}"/>
                           </td>
                           <td>
-                              Packaging
+                              <c:out value="${positionlist[status.index].position_name}"/>
                           </td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editModal'>Edit</button></td>
+                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editModal${list.employee_id}'>Edit</button></td>
                         </tr>
-                        
-                        <tr>
-                          <td>2</td>
-                          <td>Matthew</td>
-                          <td>2017/3/10</td>
-                          <td>
-                              Sales
-                          </td>
-                          <td>
-                              Sales Rep
-                          </td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editModal'>Edit</button></td>
-                        </tr>
-                        
-                        <tr>
-                          <td>3</td>
-                          <td>Williams</td>
-                          <td>2017/3/10</td>
-                          <td>
-                              Marketing
-                          </td>
-                          <td>
-                              Promotion
-                          </td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editModal'>Edit</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
 
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
-                      <!-- View Modal -->
-<!--                      <div id="viewModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                           Modal content
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Employee's Benefit</h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="form-horizontal">
-                                <div class="form-group">
-                                    <p style="font-size:16px">This is a benefit list example. This is a benefit list example.This is a benefit list example. This is a benefit list example.</p>
-                                <?php
-                                  $query_message = mysql_query("SELECT * FROM advert WHERE advertID = {$row['advertID']}");
-                                  $row_message = mysql_fetch_array($query_message, MYSQL_ASSOC);
-                                    if($row_message['type'] == 'banner')
-                                    {
-                                      echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='100%'></center>";
-                                    }
-                                    else if($row_message['type'] == 'square')
-                                    {
-                                      // Video
-                                      if(strpos($row_message['photo'], 'mp4') == true || strpos($row_message['photo'], 'webm') == true  || strpos($row_message['photo'], 'ogg') == true )
-                                      {
-                                          echo "<video width='100%' height = '100%' loop controls>"; 
-                                          echo "<source src='../../menitnews/images/{$row_message['photo']}'></video>";
-                                      }
-                                      // Picture
-                                      else
-                                      {
-                                          echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='60%' align='middle'></center>";
-                                      }
-                                      
-                                    }
-                                ?>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>-->
-                      
                       <!-- Edit Modal -->
-                      <div id="editModal" class="modal fade" role="dialog">
+                      <div id="editModal${list.employee_id}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
 <!--                           Modal content-->
@@ -251,73 +168,98 @@
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
-                                  <h4>Position Info</h4>
-                                  
-                                  <div class='form-group'>
-                                      <p>Division:
-                                      <select style="margin-top:7px; width:150px">
-                                            <option>Production</option>
-                                            <option>Sales</option>
-                                            <option>Marketing</option>
-                                        </select>
-                                      </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'><br><br>
-                                  
-                                  <div class='form-group'>
-                                      <p>Position:
-                                      <select style="margin-top:7px; width:150px">
-                                            <option>Packaging</option>
-                                            <option>Sample</option>
-                                            <option>Sample</option>
-                                        </select>
-                                      </p>
-                                  </div><input type="submit" value="Update" class='btn btn-success'>
+                              <form action="manage_employee.htm" method="post" class="contact_form" >
+                                    <h4>${list.employee_name}'s Position Info</h4>
                                     
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Employee Name:</label>
+                                        <div class="col-sm-9">
+                                            <input type='text' name='employee_name' class='form-control' value="${list.employee_name}" required>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Phone Number:</label>
+                                        <div class="col-sm-9">
+                                            <input type='text' name='phone_number' class='form-control' value="${list.phone_number}" required>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Email:</label>
+                                        <div class="col-sm-9">
+                                            <input type='email' name='email' class='form-control' value="${list.email}" required>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Date of Birth:</label>
+                                        <div class="col-sm-9">
+                                            <input type='date' name='date_of_birth' class='form-control' value="${list.date_of_birth}" required>
+                                        </div>
+                                    </div>
 
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
+                                    <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <div id="gender" class="btn-group" data-toggle="buttons">
+                                          <c:if test="${list.gender == 'Male'}">
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                              <input type="radio" name="gender" checked="checked" value="Male"> &nbsp; Male &nbsp;
+                                            </label>
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                              <input type="radio" name="gender" value="Female"> Female
+                                            </label>
+                                         </c:if> 
+                                          
+                                          <c:if test="${list.gender == 'Female'}">
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                              <input type="radio" name="gender" value="Male"> &nbsp; Male &nbsp;
+                                            </label>
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                              <input type="radio" name="gender" checked="checked" value="Female"> Female
+                                            </label>
+                                         </c:if> 
+                                          
+                                      </div>
+                                    </div>
+                                  </div>
+                                        
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Marital Status:</label>
+                                        <div class="col-sm-9">
+                                            <input type='text' name='marital_status' class='form-control' value="${list.marital_status}" required>
+                                        </div>
+                                    </div>
 
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
+                                    <div class='form-group'>
+                                        <label class="control-label col-sm-3">Position:</label>
+                                        <div class="col-sm-9">
+                                            <select name='position_id' required class="form-control">
+                                                <c:forEach items="${positionforeditlist}" var="positionlist" varStatus="status">
+                                                    <c:if test="${list.position_id == positionlist.position_id}">
+                                                        <option value="${positionlist.position_id}" selected><c:out value="${positionlist.position_name}"/></option>
+                                                    </c:if>
+                                                    <c:if test="${list.position_id != positionlist.position_id}">
+                                                        <option value="${positionlist.position_id}"><c:out value="${positionlist.position_name}"/></option>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                               </div>
                             </div>
                             <div class="modal-footer">
-<!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
+                                <input type="hidden" name="employee_id" value="${list.employee_id}">
+                                <input type="submit" onclick="return updateConfirm()" name="action" value="Update" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
+                          </c:forEach>
+                      
                       </tbody>
                     </table>
                   </div>

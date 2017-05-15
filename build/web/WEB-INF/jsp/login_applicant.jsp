@@ -109,7 +109,7 @@ start session -->
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form action="index_applicant.htm" name="loginAdmin" method="post" id="loginAdmin-form"><br><br>
+            <form action="login_applicant.htm"  method="post" id="loginAdmin-form"><br><br>
 				<center><img src="${pageContext.request.contextPath}/resources/images/LogoLogin.png" style="width:100%"></center><br>
 				
 				  <h1>Applicant Login</h1>
@@ -121,7 +121,7 @@ start session -->
 					<input type="password" class="form-control" placeholder="Password" name="password" required/>
 				  </div>
 				  <div>
-				  <p id="invalid-input" style="display: none; color: red;">Your username/password is invalid!</p><br>
+				  <p id="invalid-input" style=" color: red;">${message}</p><br>
 					<input type="submit" name="loginAdmin" value="Log in" style="margin-left: 148px;"><br>
 			
               </div>

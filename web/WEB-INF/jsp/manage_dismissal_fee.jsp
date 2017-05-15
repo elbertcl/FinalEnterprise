@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,11 +77,8 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
-      }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      if(invalid=="updatesuccess"){
+        $("#updatesuccess").show();
       }
         });
      </script>
@@ -97,9 +95,9 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="updatesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The position's monthly dismissal fee has been successfully updated.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -121,103 +119,20 @@
                       </thead>
 
                       <tbody>
-                          <tr>
-                          <td>1</td>
-                          <td>Production</td>
-                          <td>Packaging</td>
-                          <td><input type="text" value="100000" name="dismissalfee" style="height: 35px"></td>
-                          <td><input type="submit" value="Update" class="btn btn-success" ></td>
-                        </tr>
+                        <c:forEach items="${positionlist}" var="list" varStatus="status">
                         <tr>
-                          <td>2</td>
-                          <td>Sales</td>
-                          <td>Sales Rep</td>
-                          <td><input type="text" value="100000" name="dismissalfee" style="height: 35px"></td>
-                          <td><input type="submit" value="Update" class="btn btn-success"></td>
+                          <td><c:out value="${list.position_id}" /></td>
+                          <td><c:out value="${divisionlist[status.index].division_name}" /></td>
+                          <td><c:out value="${list.position_name}" /></td>
+                        <form action="manage_dismissal_fee.htm" method="post">
+                          <td><input type="text" value="${list.monthly_dismissal_fee}" name="monthly_dismissal_fee" style="height: 35px" required></td>
+                          <td>
+                              <input type="hidden" name="position_id" value="${list.position_id}">
+                              <input type="submit" name="action" value="Update" class="btn btn-success" >
+                          </td>
+                        </form>
                         </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Marketing</td>
-                          <td>Digital Promotion</td>
-                          <td><input type="text" value="100000" name="dismissalfee" style="height: 35px"></td>
-                          <td><input type="submit" value="Update" class="btn btn-success"></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
-                      <!-- View Modal -->
-<!--                      <div id="1" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                           Modal content
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Advertisement's Picture</h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="form-horizontal">
-                                <div class="form-group">
-                                <?php
-                                  $query_message = mysql_query("SELECT * FROM advert WHERE advertID = {$row['advertID']}");
-                                  $row_message = mysql_fetch_array($query_message, MYSQL_ASSOC);
-                                    if($row_message['type'] == 'banner')
-                                    {
-                                      echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='100%'></center>";
-                                    }
-                                    else if($row_message['type'] == 'square')
-                                    {
-                                      // Video
-                                      if(strpos($row_message['photo'], 'mp4') == true || strpos($row_message['photo'], 'webm') == true  || strpos($row_message['photo'], 'ogg') == true )
-                                      {
-                                          echo "<video width='100%' height = '100%' loop controls>"; 
-                                          echo "<source src='../../menitnews/images/{$row_message['photo']}'></video>";
-                                      }
-                                      // Picture
-                                      else
-                                      {
-                                          echo "<center><img src='../../menitnews/images/{$row_message['photo']}' width='60%' align='middle'></center>";
-                                      }
-                                      
-                                    }
-                                ?>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>-->
+                        </c:forEach>  
                       
                       <!-- Edit Modal -->
                       <div id="editModal" class="modal fade" role="dialog">
@@ -235,33 +150,6 @@
                               <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
                                   <p style="text-align: center; font-size:16px">Are you sure that you wanted to dismiss <b>Name</b>?<br>
                                       The total cost of dismissal fee will be <b>*Cost*</b>.</p>
-                                <!-- <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -272,12 +160,6 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>

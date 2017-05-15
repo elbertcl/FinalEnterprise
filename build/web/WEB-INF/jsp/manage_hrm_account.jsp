@@ -1,4 +1,5 @@
 <%@include file="include/header_admin.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,13 +77,23 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="addsuccess"){
+        $("#addsuccess").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="updatesuccess"){
+        $("#updatesuccess").show();
+      }
+      else if(invalid=="deletesuccess"){
+        $("#deletesuccess").show();
+      }
+      else if(invalid=="usernameexist"){
+        $("#usernameexist").show();
       }
         });
+        
+        function deleteConfirm() {
+            return confirm('Are you sure you want to delete the HRM account?');
+        }
      </script>
  
   <%@include file="include/navigation_admin.jsp" %>
@@ -110,52 +121,30 @@
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data"> 
+                              <form action="manage_hrm_account.htm" method="post" class="contact_form"> 
+                                  <div class='form-group'>
+                                      <label class="control-label col-sm-3">Name:</label>
+                                      <div class="col-sm-9">
+                                          <input type='text' name='hrm_name' class='form-control' required>
+                                      </div>
+                                  </div>
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Username:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='username' class='form-control'>
+                                          <input type='text' name='hrm_username' class='form-control' required>
                                       </div>
                                   </div>
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Password:</label>
                                       <div class="col-sm-9">
-                                          <input type='password' name='password' class='form-control'>
+                                          <input type='password' name='hrm_password' class='form-control' required>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                    <input type="submit" value="Submit" class='btn btn-success'>
+                                    <input type="submit" name="action" value="Add"  class='btn btn-success'>
                               </form>
                             </div>
                           </div>
@@ -167,9 +156,21 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="addsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The HRM account has been successfully added.</strong>
+            </div>
+            <div id="updatesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The HRM account has been successfully updated.</strong>
+            </div>
+            <div id="deletesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The HRM account has been successfully deleted.</strong>
+            </div>
+            <div id="usernameexist" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The inputted HRM username already exists, or you have not made any changes to the username.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -184,129 +185,60 @@
                         <tr>
                           <th style="width:8%">HRM ID</th>
                           <th>Username</th>
-                          <th>Action</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
                         </tr>
                       </thead>
 
                       <tbody>
-                          <tr>
-                          <td>1</td>
-                          <td>elbertcl</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editAccountModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button>
+                          <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                        <tr>
+                          <td><c:out value="${list.hrm_id}" /></td>
+                          <td><c:out value="${list.hrm_username}" /></td>
+                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editAccountModal<c:out value="${list.hrm_id}" />'>Edit</button></td>
+                          
+                          <td>
+                              <form method="post" action="manage_hrm_account.htm">
+                                  <input type="hidden" name="hrm_id" value="${list.hrm_id}">
+                                    <input type="submit" onclick="return deleteConfirm()" name="action" value="Delete" class='btn btn-danger'>
+                                </form>
                           </td>
                         </tr>
                         
-                        <tr>
-                          <td>2</td>
-                          <td>sample</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editAccountModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                        
-                        <tr>
-                          <td>3</td>
-                          <td>sample</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editAccountModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
                       <!-- Edit Division Modal -->
-                      <div id="editAccountModal" class="modal fade" role="dialog">
+                      <div id="editAccountModal<c:out value="${list.hrm_id}" />" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
 <!--                           Modal content-->
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit HRM Account</h4>
+                              <h4 class="modal-title">Edit HRM Account's Username (${list.hrm_username})</h4>
                             </div>
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
+                              <form action="manage_hrm_account.htm" method="post" class="contact_form">
                                   
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Username:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='username' class='form-control'>
+                                          <input type='text' name='hrm_username' value="${list.hrm_username}" class='form-control' required>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                <input type="submit" value="Update" class='btn btn-success'>
+                                <input type="hidden" name="hrm_id" value="${list.hrm_id}">
+                                <input type="submit" name="action" value="Update" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
+                        </c:forEach>
                       </tbody>
                     </table>
                   </div>

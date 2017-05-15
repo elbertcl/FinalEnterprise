@@ -54,5 +54,11 @@ Contributor(s):
     <mapping class="model.Employee"/>
     <mapping class="model.Activity_Log"/>
     <mapping class="model.Login_Log"/>
+    <mapping class="model.Training"/>
+    <mapping class="model.Division"/>
+    <mapping class="model.Training_Record"/>
+    <mapping class="model.Admin"/>
+    <mapping class="model.Benefit"/>
+    <mapping class="model.Dismiss_Record"/>
   </session-factory>
 </hibernate-configuration>

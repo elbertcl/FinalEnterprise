@@ -39,7 +39,7 @@
 									} 
 									?></h2>-->
                      <span>Welcome,</span>
-                     <h2> applicant</h2>                                                    
+                     <h2> <%= session.getAttribute("currentApplicant_name") %></h2>                                                    
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -56,7 +56,7 @@
                 <h3>Applicant</h3>
                 <!-- <br> -->
                 <ul class="nav side-menu">
-                  <li><a href="index_applicant.htm"><i class="fa fa-pencil"></i> Test Questions </a>
+                  <li><a href="test_question_applicant.htm"><i class="fa fa-pencil"></i> Test Questions </a>
 <!--                    <ul class="nav child_menu">
                       <li><a href="index.htm">Dashboard</a></li>
                     </ul>-->
@@ -79,7 +79,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="login_applicant.htm">Log Out</a>
+                  <a href="logout_applicant.htm">Log Out</a>
                 </li>
               </ul>
             </nav>

@@ -83,6 +83,9 @@
       else if(invalid=="interviewcompletedsuccess"){
         $("#interviewcompletedsuccess").show();
       }
+      else if(invalid=="invalidinterviewtime"){
+        $("#invalidinterviewtime").show();
+      }
         });
      </script>
  
@@ -100,11 +103,15 @@
             <div class="clearfix"></div>
             <div id="interviewtimesuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
-              <strong>Interview time successfully submitted. Do not forget to do the interview at your submitted time.</strong>
+              <strong>Interview time successfully submitted. Do not forget to do the interview at your submitted time, and click on "Interview Completed" button if you have done the interview.</strong>
             </div>
             <div id="interviewcompletedsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
               <strong>The interview is stated as completed successfully. You can accept or reject the applicant at the Set Recruitment Result page.</strong>
+            </div>
+            <div id="invalidinterviewtime" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The interview time inputted is invalid, please input an interview time that is at least after the current time.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">

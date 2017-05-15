@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -112,86 +113,29 @@
                           <th>Employee Name</th>
                           <th>Training Name</th>
                           <th>Assigned Position</th>
-                          <th>Start Time</th>
                           <th>End Time</th>
-                          <th>Speaker</th>
                           <th>Result</th>
                         </tr>
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${trainingrecordlist}" var="list" varStatus="status">
                         <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>How To Be A Great Production</td>
-                          <td>Production</td>
-                          <td>10/12/2017 13:30</td>
-                          <td>10/12/2017 15:30</td>
-                          <td>Sample Speaker</td>
-                          <td style="color: #26B99A" >
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
-                              Pass
-                          </td>
+                          <td><c:out value="${employeelist[status.index].employee_id}"/></td>
+                          <td><c:out value="${employeelist[status.index].employee_name}"/></td>
+                          <td><c:out value="${list.training_name}"/></td>
+                          <td><c:out value="${positionlist[status.index].position_name}"/></td>
+                          <td><c:out value="${list.end_time}"/></td>
+                          <c:if test="${list.training_result == 'Pass'}">
+                          <td style="color: #26B99A" >Pass</td>
+                          </c:if>
+                          <c:if test="${list.training_result == 'Fail'}">
+                          <td style="color: #c9302c">Fail</td>
+                          </c:if>
                         </tr>
+                        </c:forEach>
                         
-                        <tr>
-                          <td>2</td>
-                          <td>Matthew</td>
-                          <td>How To Be A Great Sales</td>
-                          <td>Sales</td>
-                          <td>10/12/2017 13:30</td>
-                          <td>10/12/2017 15:30</td>
-                          <td>Sample Speaker</td>
-                          <td style="color: #c9302c">
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
-                              Fail
-                          </td>
-                        </tr>
                         
-                        <tr>
-                          <td>1</td>
-                          <td>Williams</td>
-                          <td>How To Be A Great Marketing</td>
-                          <td>Marketing</td>
-                          <td>10/12/2017 13:30</td>
-                          <td>10/12/2017 15:30</td>
-                          <td>Sample Speaker</td>
-                          <td style="color: #c9302c">
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
-                              Fail
-                          </td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
                       <!-- Edit Division Modal -->
                       <div id="editTrainingModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -251,34 +195,6 @@
                                           <input type='text' name='speaker' class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -290,12 +206,6 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>

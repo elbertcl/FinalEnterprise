@@ -39,7 +39,7 @@
 									} 
 									?></h2>-->
                      <span>Welcome,</span>
-                     <h2> admin</h2>                                                    
+                     <h2> <%= session.getAttribute("currentAdmin_username") %></h2>                                                    
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -79,7 +79,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="login_admin.htm">Log Out</a>
+                  <a href="logout_admin.htm">Log Out</a>
                 </li>
               </ul>
             </nav>

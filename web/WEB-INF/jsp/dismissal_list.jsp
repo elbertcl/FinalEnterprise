@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
@@ -123,84 +124,16 @@
                       </thead>
 
                       <tbody>
+                        <c:forEach items="${dismissrecordlist}" var="list" varStatus="status">  
                         <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>Production</td>
-                          <td>Packaging</td>
-                          <td>2017/3/10</td>
-                          <td>IDR 2000000</td>
+                          <td><c:out value="${list.dismiss_record_id}" /></td>
+                          <td><c:out value="${list.employee_name}" /></td>
+                          <td><c:out value="${list.division_name}" /></td>
+                          <td><c:out value="${list.position_name}" /></td>
+                          <td><c:out value="${list.datetime}" /></td>
+                          <td>$<c:out value="${list.total_dismissal_fee}" /></td>
                         </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Matthew</td>
-                          <td>Sales</td>
-                          <td>Sales Rep</td>
-                          <td>2017/3/10</td>
-                          <td>IDR 1000000</td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>William</td>
-                          <td>Marketing</td>
-                          <td>Digital Promotion</td>
-                          <td>2017/3/10</td>
-                          <td>IDR 500000</td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM user");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                          if($row==false)
-                          {
-                            echo '<h4>There is no user registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                                echo '<tr>';
-                                echo '<td>'.$userID = $row['userID'].'</td>';
-                                echo '<td>'.$row['name'].'</td>';
-                                echo '<td>'.$row['username'].'</td>';
-                                echo '<td><a href="mailto:' . $row['email'] . '">' . $row['email'] . '</a></td>';
-                                echo '<td>'.$row['status'].'</td>';
-                                echo '<td>';
-                                  echo '<form action="controller/userStatus.php" method="POST">';
-                                  echo "<input type='hidden' name='userID' value='{$row['userID']}' >";
-                                  echo "<input type='hidden' name='currentStatus' value='{$row['status']}' >";
-                                  if($row['status'] == "active")
-                                  {
-                                    echo '<button type="submit" name="submit" class="btn btn-danger">Deactivate</button>';
-                                  }
-                                  if($row['status'] == "inactive")
-                                  {
-                                    echo '<button type="submit" name="submit" class="btn btn-success">Activate</button>';
-                                  }
-                                  echo '</form>';
-                                  // echo '<select id="heard" name="selStatus" class="form-control" required>';
-                                  // if($row['status'] == "active")
-                                  // {
-                                  //   echo '<option value="active" selected>Active</option>';
-                                  //   echo '<option value="inactive">Inactive</option>';
-                                  //   if($_POST['selStatus'] === 'inactive') mysql_query($deactivate);
-                                  //   else mysql_query($active);
-                                  // }
-                                  // else if($row['status'] == "inactive")
-                                  // {
-                                  //   echo '<option value="active" >Active</option>';
-                                  //   echo '<option value="inactive" selected>Inactive</option>';
-                                  //   if($_POST['selStatus'] == 'active') mysql_query($activate);
-                                  //   else mysql_query($inactive);
-                                  // }
-                                  // echo '</select>';
-                                echo '</td>';
-                              echo '</tr>';
-                              $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
-                        
+                        </c:forEach>
                       </tbody>
                     </table>
                   </div>

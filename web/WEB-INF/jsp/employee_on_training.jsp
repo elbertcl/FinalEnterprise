@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,11 +77,14 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="invalidtime"){
+        $("#invalidtime").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="passtraining"){
+        $("#passtraining").show();
+      }
+      else if(invalid=="failtraining"){
+        $("#failtraining").show();
       }
         });
      </script>
@@ -97,9 +101,17 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="invalidtime" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The training associated with the employee is not done yet, please check for the training's end time.</strong>
+            </div>
+            <div id="passtraining" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The result of employee passed the training has been recorded.</strong>
+            </div>
+            <div id="failtraining" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>The result of employee failed the training has been recorded.</strong>
             </div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -114,28 +126,33 @@
                           <th>Assigned Position</th>
                           <th>Start Time</th>
                           <th>End Time</th>
-                          <th>Speaker</th>
+                          <th>PIC</th>
                           <th>Result</th>
                         </tr>
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${employeelist}" var="list" varStatus="status">
                         <tr>
-                          <td>1</td>
-                          <td>Jeremy</td>
-                          <td>How To Be A Great Production</td>
-                          <td>Production</td>
-                          <td>10/12/2017 13:30</td>
-                          <td>10/12/2017 15:30</td>
-                          <td>Sample Speaker</td>
+                          <td><c:out value="${list.employee_id}"/></td>
+                          <td><c:out value="${list.employee_name}"/></td>
+                          <td><c:out value="${traininglist[status.index].training_name}"/></td>
+                          <td><c:out value="${positionlist[status.index].position_name}"/></td>
+                          <td><c:out value="${traininglist[status.index].start_time}"/></td>
+                          <td><c:out value="${traininglist[status.index].end_time}"/></td>
+                          <td><c:out value="${traininglist[status.index].pic}"/></td>
                           <td>
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
-                              <button class='btn btn-success'>Pass</button>
-                              <button class='btn btn-danger'>Fail</button>
+                              <form action="employee_on_training.htm" method="post">
+                                <input type="submit" name="action" value="Pass" class='btn btn-success'>
+                                <input type="submit" name="action" value="Fail" class='btn btn-danger'>
+                                <input type="hidden" name="employee_id" value="${list.employee_id}">
+                                <input type="hidden" name="training_id" value="${traininglist[status.index].training_id}">
+                              </form>
                           </td>
                         </tr>
+                        </c:forEach>
                         
-                        <tr>
+<!--                        <tr>
                           <td>2</td>
                           <td>Matthew</td>
                           <td>How To Be A Great Sales</td>
@@ -144,7 +161,7 @@
                           <td>10/12/2017 15:30</td>
                           <td>Sample Speaker</td>
                           <td>
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
+                              <button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>
                               <button class='btn btn-success'>Pass</button>
                               <button class='btn btn-danger'>Fail</button>
                           </td>
@@ -159,42 +176,12 @@
                           <td>10/12/2017 15:30</td>
                           <td>Sample Speaker</td>
                           <td>
-                              <!--<button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>-->
+                              <button class='btn btn-warning' data-toggle='modal' data-target='#editTrainingModal'>Edit</button>
                               <button class='btn btn-success'>Pass</button>
                               <button class='btn btn-danger'>Fail</button>
                           </td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
+                        </tr>-->
 
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
                       <!-- Edit Division Modal -->
                       <div id="editTrainingModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -254,34 +241,6 @@
                                           <input type='text' name='speaker' class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -293,12 +252,6 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
                       </tbody>
                     </table>
                   </div>

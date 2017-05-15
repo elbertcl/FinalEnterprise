@@ -1,4 +1,5 @@
 <%@include file="include/header.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,13 +77,40 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
+      if(invalid=="deletedivisionsuccess"){
+        $("#deletedivisionsuccess").show();
       }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      else if(invalid=="deletepositionsuccess"){
+        $("#deletepositionsuccess").show();
       }
+      else if(invalid=="updatedivisionsuccess"){
+        $("#updatedivisionsuccess").show();
+      }
+      else if(invalid=="updatepositionsuccess"){
+        $("#updatepositionsuccess").show();
+      }
+      else if(invalid=="divisionnameexist"){
+        $("#divisionnameexist").show();
+      }
+      else if(invalid=="positionnameexist"){
+        $("#positionnameexist").show();
+      }
+      else if(invalid=="adddivisionsuccess"){
+        $("#adddivisionsuccess").show();
+      }
+      else if(invalid=="addpositionsuccess"){
+        $("#addpositionsuccess").show();
+      }
+      
         });
+        
+        function deleteDivisionConfirm() {
+            return confirm('Are you sure you want to delete the division?');
+        }
+        
+        function deletePositionConfirm() {
+            return confirm('Are you sure you want to delete the position?');
+        }
      </script>
  
   <%@include file="include/navigation.jsp" %>
@@ -110,46 +138,18 @@
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
+                              <form action="manage_position.htm" method="post" class="contact_form"> 
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Division Name:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='divisionname' class='form-control'>
+                                          <input type='text' name='division_name' class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                    <input type="submit" value="Submit" class='btn btn-success'>
+                                    <input type="submit" name="action" value="Add Division" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
@@ -170,56 +170,28 @@
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data"> 
+                              <form action="manage_position.htm" method="post" class="contact_form"> 
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Division (parent):</label>
                                       <div class="col-sm-9">
-                                            <select class='form-control'>
-                                                <option>Production</option>
-                                                <option>Sales</option>
-                                                <option>Marketing</option>
+                                            <select class='form-control' name="division_id">
+                                                <c:forEach items="${divisionlist}" var="list" varStatus="status">
+                                                <option value="${list.division_id}"><c:out value="${list.division_name}"/></option>
+                                                </c:forEach>
                                           </select>
                                       </div>
                                   </div>
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Position Name:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='divisionname' class='form-control'>
+                                          <input type='text' name='position_name' class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                    <input type="submit" value="Submit" class='btn btn-success'>
+                                    <input type="submit" name="action" value="Add Position" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
@@ -231,10 +203,40 @@
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            
+            <div id="deletedivisionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Division successfully deleted.</strong>
             </div>
+            <div id="deletepositionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Position successfully deleted.</strong>
+            </div>
+            <div id="adddivisionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Division successfully added.</strong>
+            </div>
+            <div id="addpositionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Position successfully added.</strong>
+            </div>
+            <div id="updatedivisionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Division name successfully updated.</strong>
+            </div>
+            <div id="updatepositionsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Position name successfully updated.</strong>
+            </div>
+            <div id="divisionnameexist" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Invalid division name: the division name already exists.</strong>
+            </div>
+            <div id="positionnameexist" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Invalid position name: the position name already exists.</strong>
+            </div>
+            
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -248,129 +250,58 @@
                         <tr>
                           <th style="width:8%">Division ID</th>
                           <th>Division Name</th>
-                          <th>Action</th>
+                          <th style="width: 25%">Edit</th>
+                          <th style="width: 25%">Delete</th>
                         </tr>
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${divisionlist}" var="list" varStatus="status">
                           <tr>
-                          <td>1</td>
-                          <td>Production</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editDivisionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button>
+                          <td><c:out value="${list.division_id}"/></td>
+                          <td><c:out value="${list.division_name}"/></td>
+                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editDivisionModal${list.division_id}'>Edit Division</button></td>
+                          <td>
+                        <form action="manage_position.htm" method="post" class="contact_form"> 
+                            <input type="hidden" name="division_id" value="${list.division_id}">
+                          <input type="submit" onclick="return deleteDivisionConfirm()" name="action" value="Delete Division" class='btn btn-danger'>
+                          </form>
                           </td>
                         </tr>
                         
-                        <tr>
-                          <td>2</td>
-                          <td>Sales</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editDivisionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                        
-                        <tr>
-                          <td>3</td>
-                          <td>Marketing</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editDivisionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
-                      
                       <!-- Edit Division Modal -->
-                      <div id="editDivisionModal" class="modal fade" role="dialog">
+                      <div id="editDivisionModal${list.division_id}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
 <!--                           Modal content-->
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit Division</h4>
+                              <h4 class="modal-title">Edit Division's Name (${list.division_name})</h4>
                             </div>
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data">
-                                  
+                              <form action="manage_position.htm" method="post" class="contact_form"> 
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Division Name:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='divisionname' class='form-control'>
+                                          <input type='text' name='division_name' value="${list.division_name}" class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
-                                <input type="submit" value="Update" class='btn btn-success'>
+                                <input type="hidden" name="division_id" value="${list.division_id}">
+                                <input type="submit" name="action" value="Update Division" class='btn btn-success'>
                               </form>
                             </div>
                           </div>
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
+                          </c:forEach>
                       </tbody>
                     </table>
                   </div>
@@ -393,118 +324,52 @@
                           <th style="width:8%">Position ID</th>
                           <th>Division</th>
                           <th>Position Name</th>
-                          <th>Action</th>
+                          <th style="width: 25%">Edit</th>
+                          <th style="width: 25%">Delete</th>
                         </tr>
                       </thead>
 
                       <tbody>
+                          <c:forEach items="${positionlist}" var="list" varStatus="status">
                           <tr>
-                          <td>1</td>
-                          <td>Production</td>
-                          <td>Packaging</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editPositionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button>
+                          <td><c:out value="${list.position_id}"/></td>
+                          <td><c:out value="${divisionforpositionlist[status.index].division_name}"/></td>
+                          <td><c:out value="${list.position_name}"/></td>
+                          <td> 
+                              <button class='btn btn-warning' data-toggle='modal' data-target='#editPositionModal${list.position_id}'>Edit Position</button></td>
+                          <td>
+                              <form action="manage_position.htm" method="post" class="contact_form"> 
+                            <input type="hidden" name="position_id" value="${list.position_id}">
+                          <input type="submit" onclick="return deletePositionConfirm()" name="action" value="Delete Position" class='btn btn-danger'>
+                          </form>
                           </td>
                         </tr>
-                        
-                        <tr>
-                          <td>2</td>
-                          <td>Sales</td>
-                          <td>Sales Rep</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editPositionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                        
-                        <tr>
-                          <td>3</td>
-                          <td>Marketing</td>
-                          <td>Promotion</td>
-                          <td><button class='btn btn-warning' data-toggle='modal' data-target='#editPositionModal'>Edit</button>
-                          <button class='btn btn-danger'>Delete</button></td>
-                        </tr>
-                      <!-- <?php
-                          $query=mysql_query("SELECT * FROM advert");
-                          $row=mysql_fetch_array($query, MYSQL_ASSOC);
-
-                          if($row==false) 
-                          {
-                            echo '<h4>There is no advertisement registered.</h4>';
-                          }
-                          else
-                          {
-                            do
-                            {
-                              echo "<tr>";
-                                echo "<td>{$row['advertID']}</td>";
-                                echo "<td>{$row['url']}</td>";
-                                echo "<td>{$row['type']}</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-primary' data-toggle='modal' data-target='#advertModal{$row['advertID']}'>View</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<button class='btn btn-warning' data-toggle='modal' data-target='#editModal{$row['advertID']}'>Edit</button>";
-                                echo "</td>";
-                                echo "<td>";
-                                  echo "<form action='controller/removeAdsController.php' method='POST'>";
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<input type='submit' class='btn btn-danger' value='Delete'>";
-                                  echo "</form>";
-                                echo "</td>";
-                              echo "</tr>";
-                      ?> -->
                       
                       <!-- Edit Position Modal -->
-                      <div id="editPositionModal" class="modal fade" role="dialog">
+                      <div id="editPositionModal${list.position_id}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
 <!--                           Modal content-->
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit Position</h4>
+                              <h4 class="modal-title">Edit Position's Name (${list.position_name})</h4>
                             </div>
 
                             <div class="modal-body">
                               <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data"> 
+                              <form action="manage_position.htm" method="post" class="contact_form"> 
                                   <div class='form-group'>
                                       <label class="control-label col-sm-3">Position Name:</label>
                                       <div class="col-sm-9">
-                                          <input type='text' name='divisionname' class='form-control'>
+                                          <input type='text' name='position_name' value="${list.position_name}" class='form-control'>
                                       </div>
                                   </div>
-                                  
-<!--                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> -->
                               </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" value="Update" class='btn btn-success'>
+                                <input type="hidden" name="position_id" value="${list.position_id}">
+                                <input type="submit" name="action" value="Update Position" class='btn btn-success'>
 <!--                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">-->
                               </form>
                             </div>
@@ -512,12 +377,7 @@
 
                         </div>
                       </div>
-                      <!-- <?php
-                      $row=mysql_fetch_array($query, MYSQL_ASSOC);
-                            }
-                            while($row!=false);
-                          }
-                      ?> -->
+                          </c:forEach>
                       </tbody>
                     </table>
                   </div>

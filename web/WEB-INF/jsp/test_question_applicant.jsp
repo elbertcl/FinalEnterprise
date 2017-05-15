@@ -1,4 +1,5 @@
 <%@include file="include/header_applicant.jsp" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <!-- iCheck -->
     <link href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
@@ -76,11 +77,8 @@
       <!-- Using the getUrlParameter function to help show the invalid input message -->
       var invalid = getUrlParameter('invalid');
       
-      if(invalid=="deleted"){
-        $("#deleted").show();
-      }
-      else if(invalid=="modified"){
-        $("#modified").show();
+      if(invalid=="submitsuccess"){
+        $("#submitsuccess").show();
       }
         });
      </script>
@@ -93,86 +91,19 @@
             <div class="page-title">
               <div class="title_left">
                 <h3>Welcome to the Slav test questions.</h3>
-                <p>Welcome to the Slav test questions. Welcome to the Slav test questions. Welcome to the Slav test questions. </p>
+                <p>Welcome to the Slav test questions. Welcome to the Slav test questions. Welcome to the Slav test questions. </p><br>
+               
               </div>
-<!--              <div class="title_right">
-                  <button class='btn btn-primary' data-toggle='modal' data-target='#addHRMModal' style='float:right'>New HRM Account</button>
-                
-                 Add Position Modal 
-                      <div id="addHRMModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                           Modal content
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Add New HRM Account</h4>
-                            </div>
-
-                            <div class="modal-body">
-                              <div class="form-horizontal">
-                              <form action="controller/editAdvertController.php" method="POST" class="contact_form" enctype="multipart/form-data"> 
-                                  <div class='form-group'>
-                                      <label class="control-label col-sm-3">Username:</label>
-                                      <div class="col-sm-9">
-                                          <input type='text' name='username' class='form-control'>
-                                      </div>
-                                  </div>
-                                  <div class='form-group'>
-                                      <label class="control-label col-sm-3">Password:</label>
-                                      <div class="col-sm-9">
-                                          <input type='password' name='password' class='form-control'>
-                                      </div>
-                                  </div>
-                                  
-                                 <?php
-                                  echo "<input type='hidden' name='advertID' value='{$row['advertID']}'>";
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>File:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input name='photo' required='required' type='file' style='margin-top:5px'>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>URL:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<input class='form-control' type='text' name='url' placeholder='http://example.com' value='{$row['url']}' required>";
-                                    echo "</div>";
-                                  echo "</div>";
-
-                                  echo "<div class='form-group'>";
-                                    echo "<label class='control-label col-sm-2'>Type:</label>";
-                                    echo "<div class='col-sm-10'>";
-                                      echo "<select class='form-control' name='type'>";?>
-                                        <option value="square" <?php if($row['type']=='square') echo "selected"?>>Square</option>
-                                        <option value="banner" <?php if($row['type']=='banner') echo "selected"?>>Banner</option>
-                                      <?php
-                                      echo "</select>";
-                                    echo "</div>";
-                                  echo "</div>";
-                                ?> 
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <input type="submit" value="Dismiss" style="align: center;" class="btn btn-danger">
-                                    <input type="submit" value="Submit" class='btn btn-success'>
-                              </form>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                
-              </div>--> 
             </div>
 
             <div class="clearfix"></div>
-            <div id="modified" class="alert alert-warning alert-dismissible fade in" style="display:none;"> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <strong>Advertisement modified!</strong>
+            <div id="submitsuccess" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <strong>Your answers have been recorded, please wait until further notice regarding your interview time.</strong>
             </div>
+             <p style="color: #26B99A">${testdone}</p>
             <div class="row">
+                <c:if test="${testdone == null}">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
               <div class="x_title">
@@ -180,42 +111,27 @@
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
-                <form>
-                    <h4>Question 1</h4>
-                    <p class="font-gray-dark">
-                      This is an example question. This is an example question. This is an example question. This is an example question. 
-                    </p>
+                <form action="test_question_applicant.htm" method="post">
+                    <c:forEach items="${testquestionlist}" var="list" varStatus="status">
+                        <h4>Question ID <c:out value="${list.question_id}" /></h4>
+                        <p class="font-gray-dark">
+                          <c:out value="${list.question}" />
+                        </p>
 
-                      <div class="form-group">
-                        <label for="ex3">Answer</label>
-                        <input type="text" id="ex3" class="form-control" placeholder=" ">
-                      </div><br>
-                    
-                    <h4>Question 2</h4>
-                    <p class="font-gray-dark">
-                      This is an example question. This is an example question. This is an example question. This is an example question. 
-                    </p>
-                    
-                      <div class="form-group">
-                        <label for="ex4">Answer</label>
-                        <input type="text" id="ex4" class="form-control" placeholder=" ">
-                      </div><br>
-                    
-                    <h4>Question 3</h4>
-                    <p class="font-gray-dark">
-                      This is an example question. This is an example question. This is an example question. This is an example question. 
-                    </p>
-                    
-                      <div class="form-group">
-                        <label for="ex4">Answer</label>
-                        <input type="text" id="ex4" class="form-control" placeholder=" ">
-                      </div><br>
-                    
-                      <button type="submit" class="btn btn-success">Submit</button>
+                          <div class="form-group">
+                            <label for="ex3">Answer</label>
+                            <input type="text" id="ex3" name="answer" class="form-control" required>
+                            <input type="hidden" name="question_id" value="${list.question_id}">
+                          </div><br>
+                    </c:forEach>
+                          
+                    <input type="hidden" name="applicant_id" value="<%= session.getAttribute("currentApplicant_id") %>">
+                    <input type="submit" name="action" value="Submit" class="btn btn-success">
                 </form>
               </div>
             </div>
               </div>
+                    </c:if>
             </div>
             
           </div>

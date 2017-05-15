@@ -19,12 +19,32 @@
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
     <bean class="controller.IndexController" id="IndexController"/>
+    <bean class="controller.ManageHRMAccountController" id="ManageHRMAccountController"/>
+    <bean class="controller.TestQuestionApplicantController" id="TestQuestionApplicantController"/>
+    
     <bean class="controller.LoginHRMController" id="LoginHRMController"/>
+    <bean class="controller.LoginApplicantController" id="LoginApplicantController"/>
+    <bean class="controller.LoginAdminController" id="LoginAdminController"/>
+    
     <bean class="controller.LogoutHRMController" id="LogoutHRMController"/>
+    <bean class="controller.LogoutApplicantController" id="LogoutApplicantController"/>
+    <bean class="controller.LogoutAdminController" id="LogoutAdminController"/>
+    
     <bean class="controller.ListOfApplicantsController" id="ListOfApplicantsController"/>
     <bean class="controller.ManageTestQuestionsController" id="ManageTestQuestionsController"/>
     <bean class="controller.ManageInterviewTimeController" id="ManageInterviewTimeController"/>
     <bean class="controller.SetRecruitmentResultController" id="SetRecruitmentResultController"/>
+    <bean class="controller.ManageTrainingController" id="ManageTrainingController"/>
+    <bean class="controller.TrainingAssignmentController" id="TrainingAssignmentController"/>
+    <bean class="controller.EmployeeOnTrainingController" id="EmployeeOnTrainingController"/>
+    <bean class="controller.TrainingHistoryController" id="TrainingHistoryController"/>
+    <bean class="controller.ManageEmployeeController" id="ManageEmployeeController"/>
+    <bean class="controller.ManagePositionController" id="ManagePositionController"/>
+    <bean class="controller.EmployeeBenefitController" id="EmployeeBenefitController"/>
+    <bean class="controller.ManagePositionBenefitController" id="ManagePositionBenefitController"/>
+    <bean class="controller.EmployeeDismissalController" id="EmployeeDismissalController"/>
+    <bean class="controller.DismissalListController" id="DismissalListController"/>
+    <bean class="controller.ManageDismissalFeeController" id="ManageDismissalFeeController"/>
 
     <!--
     Most controllers will use the ControllerClassNameHandlerMapping above, but
@@ -35,8 +55,8 @@
         <property name="mappings">
             <props>
                 <prop key="index.htm">IndexController</prop>
-                <prop key="index_applicant.htm">IndexApplicantController</prop>
-                <prop key="index_admin.htm">IndexAdminController</prop>
+                <prop key="test_question_applicant.htm">TestQuestionApplicantController</prop>
+                <prop key="manage_hrm_account.htm">ManageHRMAccountController</prop>
                 
                 <prop key="list_of_applicants.htm">ListOfApplicantsController</prop>
                 <prop key="manage_test_questions.htm">ManageTestQuestionsController</prop>
@@ -48,6 +68,8 @@
                 <prop key="login_applicant.htm">LoginApplicantController</prop>
                 
                 <prop key="logout_hrm.htm">LogoutHRMController</prop>
+                <prop key="logout_applicant.htm">LogoutApplicantController</prop>
+                <prop key="logout_admin.htm">LogoutAdminController</prop>
                 
                 <prop key="edit_account.htm">EditAccountController</prop>
                 
@@ -87,13 +109,13 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />-->
     
-    <bean name="IndexApplicantController"
+<!--    <bean name="IndexApplicantController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index_applicant" />
+          p:viewName="index_applicant" />-->
     
-    <bean name="IndexAdminController"
+<!--    <bean name="IndexAdminController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index_admin" />
+          p:viewName="index_admin" />-->
     
 <!--    <bean name="ListOfApplicantsController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
@@ -115,57 +137,57 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="login_hrm" />-->
     
-    <bean name="LoginAdminController"
+<!--    <bean name="LoginAdminController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="login_admin" />
+          p:viewName="login_admin" />-->
     
-    <bean name="LoginApplicantController"
+<!--    <bean name="LoginApplicantController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="login_applicant" />
+          p:viewName="login_applicant" />-->
     
-    <bean name="ManageTrainingController"
+<!--    <bean name="ManageTrainingController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_training" />
+          p:viewName="manage_training" />-->
     
-    <bean name="TrainingAssignmentController"
+<!--    <bean name="TrainingAssignmentController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="training_assignment" />
+          p:viewName="training_assignment" />-->
     
-    <bean name="EmployeeOnTrainingController"
+<!--    <bean name="EmployeeOnTrainingController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="employee_on_training" />
+          p:viewName="employee_on_training" />-->
     
-    <bean name="TrainingHistoryController"
+<!--    <bean name="TrainingHistoryController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="training_history" />
+          p:viewName="training_history" />-->
     
-    <bean name="ManageEmployeeController"
+<!--    <bean name="ManageEmployeeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_employee" />
+          p:viewName="manage_employee" />-->
     
-    <bean name="ManagePositionController"
+<!--    <bean name="ManagePositionController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_position" />
+          p:viewName="manage_position" />-->
     
-    <bean name="EmployeeBenefitController"
+<!--    <bean name="EmployeeBenefitController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="employee_benefit" />
+          p:viewName="employee_benefit" />-->
     
-    <bean name="ManagePositionBenefitController"
+<!--    <bean name="ManagePositionBenefitController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_position_benefit" />
+          p:viewName="manage_position_benefit" />-->
     
-    <bean name="EmployeeDismissalController"
+<!--    <bean name="EmployeeDismissalController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="employee_dismissal" />
+          p:viewName="employee_dismissal" />-->
     
-    <bean name="DismissalListController"
+<!--    <bean name="DismissalListController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="dismissal_list" />
+          p:viewName="dismissal_list" />-->
     
-    <bean name="ManageDismissalFeeController"
+<!--    <bean name="ManageDismissalFeeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="manage_dismissal_fee" />
+          p:viewName="manage_dismissal_fee" />-->
     
     <bean name="EditAccountController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"

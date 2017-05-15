@@ -91,6 +91,15 @@ public class ManageInterviewTimeController implements Controller{
         }
         if (hsr.getParameterMap().containsKey("datetime")) {
             datetime = format.parse(hsr.getParameter("datetime"));
+            
+            Calendar cal = Calendar.getInstance();
+            Date currentDate = cal.getTime();
+            
+            if(currentDate.after(datetime))
+            {
+                mv = new ModelAndView("redirect:manage_interview_time.htm?invalid=invalidinterviewtime");
+                return mv;
+            }
         }
         
         if("Submit Time".equals(action))

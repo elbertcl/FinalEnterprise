@@ -69,18 +69,18 @@
                       <li><a href="set_recruitment_result.htm">Set Recruitment Result</a></li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-group"></i> Rostering <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="manage_employee.htm">Manage Employee</a></li>
+                      <li><a href="manage_position.htm">Manage Company's Positions</a></li>
+                    </ul>
+                  </li>
                   <li><a><i class="fa fa-graduation-cap"></i> Training <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="manage_training.htm">Manage Training</a></li>
                       <li><a href="training_assignment.htm">Employees Training Assignment</a></li>
                       <li><a href="employee_on_training.htm">Employees on Training</a></li>
                       <li><a href="training_history.htm">Employees Training History</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-group"></i> Rostering <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="manage_employee.htm">Manage Employee</a></li>
-                      <li><a href="manage_position.htm">Manage Company's Positions</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-gift"></i> Benefits <span class="fa fa-chevron-down"></span></a>
