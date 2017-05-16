@@ -74,7 +74,7 @@ public class LoginHRMController implements Controller{
                 HttpSession sample = hsr.getSession();
                 sample.setAttribute("currentHRM_id", listSession.getHrm_id());
                 sample.setAttribute("currentHRM_username", listSession.getHrm_username());
-                sample.setAttribute("currentHRM_password", listSession.getHrm_password());
+//                sample.setAttribute("currentHRM_password", listSession.getHrm_password());
                 sample.setAttribute("currentHRM_name", listSession.getHrm_name());
                 sample.setAttribute("currentHRM_picture", listSession.getHrm_picture());
                 

@@ -47,7 +47,7 @@
     <bean class="controller.ManageDismissalFeeController" id="ManageDismissalFeeController"/>
     <bean class="controller.LoginLogController" id="LoginLogController"/>
     <bean class="controller.ActivityLogController" id="ActivityLogController"/>
-    <bean class="controller.EditAccountController "id="EditAccountController"/>
+    <bean class="controller.EditAccountController" id="EditAccountController"/>
 
     <!--
     Most controllers will use the ControllerClassNameHandlerMapping above, but

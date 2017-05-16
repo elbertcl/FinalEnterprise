@@ -47,7 +47,7 @@ public class LogoutHRMController implements Controller{
 //            sample.invalidate();
             sample.removeAttribute("currentHRM_id");
             sample.removeAttribute("currentHRM_username");
-            sample.removeAttribute("currentHRM_password");
+//            sample.removeAttribute("currentHRM_password");
             sample.removeAttribute("currentHRM_name");
             sample.removeAttribute("currentHRM_picture");
         }

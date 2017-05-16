@@ -1,6 +1,6 @@
 <%@include file="include/header.jsp" %>
 <%@include file="include/navigation.jsp" %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 		<script type="text/javascript">
         $(document).ready(function() {
 			<!-- Block of codes for getUrlParameter function -->
@@ -70,17 +70,17 @@
 			<!-- Using the getUrlParameter function to help show the invalid input message -->
 			var invalid = getUrlParameter('invalid');
 			
-			if(invalid=="invalid-username"){
-				$("#invalid-username").show();
+			if(invalid=="usernameexist"){
+				$("#usernameexist").show();
 			}
-			else if(invalid=="invalid-oldpassword"){
-				$("#invalid-oldpassword").show();
+			else if(invalid=="oldpassword"){
+				$("#oldpassword").show();
 			}
-			else if(invalid=="invalid-repeatpassword"){
-				$("#invalid-repeatpassword").show();
+			else if(invalid=="repeatpassword"){
+				$("#repeatpassword").show();
 			}
-			else if(invalid=="false"){
-				$("#invalid-false").show();
+			else if(invalid=="success"){
+				$("#success").show();
 			}
         });
      </script>
@@ -95,61 +95,74 @@
                   <div class="x_content">
 
                     
-                      <span class="section">Edit Admin Account</span>
-					  <p id="invalid-false" style="display: none; color: green;">The changes have been saved.</p>
-
+                      <span class="section">Edit Admin Account ${test}</span>
+					  <!--<p id="invalid-false" style="display: none; color: green;">The changes have been saved.</p>-->
+                    <div id="success" class="alert alert-success alert-dismissible fade in" style="display:none;"> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+                      <strong>The changes have been saved.</strong>
+                    </div>
+                    <div id="usernameexist" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+                      <strong>Invalid username: the username inputted already exists, or you have not made any changes to your username.</strong>
+                    </div>
+                    <div id="oldpassword" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+                      <strong>Invalid old password inputted, please enter the correct old password.</strong>
+                    </div>
+                    <div id="repeatpassword" class="alert alert-danger alert-dismissible fade in" style="display:none;"> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+                      <strong>The new password and repeated password is not the same, please try again.</strong>
+                    </div>
+                
+                      
                       <div class="item form-group">
-                        <!-- <div class="col-md-4 col-sm-4 col-xs-12"></div> -->
-<!--                        <img src="<?php 
-									if(isset($_SESSION["photoAdmin"])){
-										if($_SESSION["photoAdmin"] != ""){
-											echo "images/".$_SESSION['photoAdmin'];
-										} 
-										else
-										{
-											echo "images/defaultadmin.png";
-										}
-									}
-									?>" class="img-circle img-responsive" alt="avatar" style="margin: 0 auto;">-->
-                            <img src="${pageContext.request.contextPath}/resources/images/defaultadmin.png" class="img-circle img-responsive" alt="avatar" style="margin: 0 auto;">                                           
-                      </div><br>
+                          <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                            <img src="${pageContext.request.contextPath}/resources/images/${list.hrm_picture}" class="img-circle img-responsive" alt="avatar" style="margin: 0 auto;">                                           
+                            </c:forEach>
+                          </div><br>
 
 					  
-					<form action="controller/editAdminUsername.php" method="post" class="form-horizontal form-label-left" name="editAdminUsername" id="editAdminUsername-form">
+                        <form action="edit_account.htm" method="post" class="form-horizontal form-label-left">
                       
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Username 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-<!--                          <input id="name" class="form-control col-md-7 col-xs-12"  name="newusername" value="<?php 
-									
-											echo $_SESSION['usernameAdmin'];
-										
-									?>"  type="text" required >-->
-                                <input id="name" class="form-control col-md-7 col-xs-12"  name="newusername" value="elbertcl"  type="text" required >                                        
+                            <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                                <input class="form-control col-md-7 col-xs-12"  name="hrm_username" value="${list.hrm_username}"  type="text" required >   
+                                </c:forEach>
                         </div>
 						
 						<br><br>
 						<div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-						<p id="invalid-username" style="display: none; color: red;"><br>The username has already been taken.</p><br>
-                          <button id="send" type="submit" class="btn btn-success">Submit New Username</button>
+						<!--<p id="invalid-username" style="display: none; color: red;"><br>The username has already been taken.</p><br>-->
+                                                <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                                                <input type="hidden" name="hrm_id" value="${list.hrm_id}">
+                                                <input type="hidden" name="action" value="Submit New Username">
+                                                </c:forEach>
+                                                <br>
+                                                <input type="submit" value="Submit New Username" class="btn btn-success">
                         </div>
                       </div><div class="ln_solid"></div>
                       </form>
                       
 					  
-					  <form action="controller/editAdminPhoto.php" method="post" class="form-horizontal form-label-left" name="editAdminPhoto" id="editAdminPhoto-form" enctype="multipart/form-data">
+                        <form action="edit_account.htm" method="post" class="form-horizontal form-label-left" >
                      
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Profile Picture 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="file"  name="newphoto" style="margin-top:5px" required>
+                          <input type="file"  name="hrm_picture" style="margin-top:5px" required>
                         </div>
 						
 						<br><br>
 						<div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <br><button id="send" type="submit" class="btn btn-success">Submit New Photo</button>
+                            <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                            <input type="hidden" name="hrm_id" value="${list.hrm_id}">
+                            </c:forEach>
+                            <input type="hidden" name="action" value="Submit New Photo">
+                          <br><input id="send" type="submit" value="Submit New Photo" class="btn btn-success">
                         </div>
                       </div>
 					  <div class="ln_solid"></div>
@@ -157,18 +170,12 @@
                       
 					  
 					  
-					  <form action="controller/editAdminPassword.php" method="post" class="form-horizontal form-label-left" name="editAdminPassword" id="editAdminPassword-form">
-                      <!-- <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div> --><br>
+					  <form action="edit_account.htm" method="post" class="form-horizontal form-label-left" name="editAdminPassword" id="editAdminPassword-form">
+<br>
 					  <div>
                         <label for="password" class="control-label col-md-3">Old Password</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" name="oldpassword" class="form-control col-md-7 col-xs-12" required>
+                          <input type="password" name="oldpassword"  class="form-control col-md-7 col-xs-12" required>
                         </div>
                       </div><br><br>
                       <div>
@@ -185,13 +192,16 @@
                       </div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-						<p id="invalid-oldpassword" style="display: none; color: red;"><br>The old password inputted is incorrect.</p>
-						<p id="invalid-repeatpassword" style="display: none; color: red;"><br>The password confirmation does not match.</p>
-                         <br><button id="send" type="submit" class="btn btn-success">Submit New Password</button>
+						<!--<p id="invalid-oldpassword" style="display: none; color: red;"><br>The old password inputted is incorrect.</p>-->
+						<!--<p id="invalid-repeatpassword" style="display: none; color: red;"><br>The password confirmation does not match.</p>-->
+                                                <c:forEach items="${hrmlist}" var="list" varStatus="status">
+                                                <input type="hidden" name="hrm_id" value="${list.hrm_id}">
+                                                </c:forEach>
+                                                <input type="hidden" name="action" value="Submit New Password">
+                                                <br><input id="send" type="submit" value="Submit New Password" class="btn btn-success">
                         </div>
                       </div><div class="ln_solid"></div>
-                    </form>
-					
+                    </form>	
 					
                   </div>
                 </div>

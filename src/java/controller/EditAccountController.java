@@ -34,9 +34,6 @@ public class EditAccountController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = new ModelAndView("edit_account");
-        String action = null;
-        Integer question_id = null;
-        String question = null;
         HttpSession sample = hsr.getSession();
         
         try {
@@ -45,8 +42,8 @@ public class EditAccountController implements Controller{
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             
-            List <Test_Question> testquestionlist = session.createQuery("from Test_Question").list();
-            mv.addObject("testquestionlist", testquestionlist);
+            List <HRM> hrmlist = session.createQuery("from HRM").list();
+            mv.addObject("hrmlist", hrmlist);
             
 //            mv = new ModelAndView("login_hrm");
             session.getTransaction().commit();
@@ -55,89 +52,137 @@ public class EditAccountController implements Controller{
             e.printStackTrace();
         }
         
+        String action = null;
+        Integer hrm_id = null;
+        String hrm_username = null;
+        String hrm_picture = null;
+        String oldpassword = null;
+        String newpassword = null;
+        String repeatpassword = null;
+        
         // Actions Controller
         if (hsr.getParameterMap().containsKey("action")) {
             action = hsr.getParameter("action");
         }
-        if (hsr.getParameterMap().containsKey("question_id")) {
-            question_id = Integer.parseInt(hsr.getParameter("question_id"));
+        if (hsr.getParameterMap().containsKey("hrm_id")) {
+            hrm_id = Integer.parseInt(hsr.getParameter("hrm_id"));
         }
-        if (hsr.getParameterMap().containsKey("question")) {
-            question = hsr.getParameter("question");
+        if (hsr.getParameterMap().containsKey("hrm_username")) {
+            hrm_username = hsr.getParameter("hrm_username");
+        }
+         if (hsr.getParameterMap().containsKey("hrm_picture")) {
+            hrm_picture = hsr.getParameter("hrm_picture");
+        }
+          if (hsr.getParameterMap().containsKey("oldpassword")) {
+            oldpassword = hsr.getParameter("oldpassword");
+        }
+           if (hsr.getParameterMap().containsKey("newpassword")) {
+            newpassword = hsr.getParameter("newpassword");
+        }
+            if (hsr.getParameterMap().containsKey("repeatpassword")) {
+            repeatpassword = hsr.getParameter("repeatpassword");
         }
         
-        if("Delete".equals(action))
+        if("Submit New Username".equals(action))
         {
+            mv.addObject("test" , "working");
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             
-            Query query = session.createQuery("delete from Test_Question where question_id=:question_id").setParameter("question_id", question_id);
-            query.executeUpdate();
-            
-            Activity_Log a=new Activity_Log();
-            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
-            a.setActivity_log_desc("Deleted question ID " + question_id  + " in Manage Test Questions page");
-            a.setUser_role("HRM");
-            Calendar cal = Calendar.getInstance();
-            a.setDatetime(cal.getTime());
-            session.save(a);
-            
-            session.getTransaction().commit();
-            
-            mv = new ModelAndView("redirect:edit_account.htm?invalid=deletesuccess");
+            Query query2 = (Query) session.createQuery("from HRM where hrm_username = :hrm_username").setParameter("hrm_username", hrm_username);
+            if(!query2.list().isEmpty())
+            {
+                mv = new ModelAndView("redirect:edit_account.htm?invalid=usernameexist");
+                return mv;
+            }
+            else
+            {
+                Query query = session.createQuery("update HRM set hrm_username = :hrm_username where hrm_id = :hrm_id");
+                query.setParameter("hrm_id", hrm_id);
+                query.setParameter("hrm_username", hrm_username);
+                query.executeUpdate();
+                
+                sample.setAttribute("currentHRM_username", hrm_username);
+
+                Activity_Log a=new Activity_Log();
+                a.setUser_name((String) sample.getAttribute("currentHRM_username"));
+                a.setActivity_log_desc("Updated HRM ID " + hrm_id  + "'s username in Edit Account page");
+                a.setUser_role("HRM");
+                Calendar cal = Calendar.getInstance();
+                a.setDatetime(cal.getTime());
+                session.save(a);
+
+                session.getTransaction().commit();
+
+                mv = new ModelAndView("redirect:edit_account.htm?invalid=success");
+            }
         }
-        else if("Add".equals(action))
+        else if("Submit New Photo".equals(action))
         {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             
-//            Query query = session.createQuery("delete from Test_Question where question_id=:question_id").setParameter("question_id", question_id);
-//            Query query = session.createQuery("insert into Test_Question (question) select t.question from Test_Question t");
-//            query.executeUpdate();
-            
-            Test_Question e=new Test_Question();
-            e.setQuestion(question);
-            session.save(e);
-            
-            Activity_Log a=new Activity_Log();
-            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
-            a.setActivity_log_desc("Added new question in Manage Test Questions page");
-            a.setUser_role("HRM");
-            Calendar cal = Calendar.getInstance();
-            a.setDatetime(cal.getTime());
-            session.save(a);
-            
-            session.getTransaction().commit();
-            
-            mv = new ModelAndView("redirect:edit_account.htm?invalid=addsuccess");
-        }
-        else if("Edit".equals(action))
-        {
-            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            
-            Query query = session.createQuery("update Test_Question set question = :question where question_id = :question_id");
-            query.setParameter("question_id", question_id);
-            query.setParameter("question", question);
+            Query query = session.createQuery("update HRM set hrm_picture = :hrm_picture where hrm_id = :hrm_id");
+            query.setParameter("hrm_id", hrm_id);
+            query.setParameter("hrm_picture", hrm_picture);
             query.executeUpdate();
+
+            sample.setAttribute("currentHRM_picture", hrm_picture);
             
             Activity_Log a=new Activity_Log();
-            a.setUser_name((String) sample.getAttribute("currentHRM_name"));
-            a.setActivity_log_desc("Edited question ID " + question_id  + " in Manage Test Questions page");
+            a.setUser_name((String) sample.getAttribute("currentHRM_username"));
+            a.setActivity_log_desc("Updated HRM ID " + hrm_id  + "'s profile picture in Edit Account page");
             a.setUser_role("HRM");
             Calendar cal = Calendar.getInstance();
             a.setDatetime(cal.getTime());
             session.save(a);
-            
+
             session.getTransaction().commit();
+
+            mv = new ModelAndView("redirect:edit_account.htm?invalid=success");
+        }
+        else if("Submit New Password".equals(action))
+        {
+            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
             
-            mv = new ModelAndView("redirect:edit_account.htm?invalid=editsuccess");
+            if(!newpassword.equals(repeatpassword))
+            {
+                mv = new ModelAndView("redirect:edit_account.htm?invalid=repeatpassword");
+                return mv;
+            }
+            
+            Query query2 = (Query) session.createQuery("from HRM where hrm_password = :hrm_password and hrm_username= :hrm_username").setParameter("hrm_username", sample.getAttribute("currentHRM_username")).setParameter("hrm_password", oldpassword);
+            if(query2.list().isEmpty())
+            {
+                mv = new ModelAndView("redirect:edit_account.htm?invalid=oldpassword");
+                return mv;
+            }
+            else
+            {
+                Query query = session.createQuery("update HRM set hrm_password = :hrm_password where hrm_id = :hrm_id");
+                query.setParameter("hrm_id", hrm_id);
+                query.setParameter("hrm_password", newpassword);
+                query.executeUpdate();
+
+                Activity_Log a=new Activity_Log();
+                a.setUser_name((String) sample.getAttribute("currentHRM_username"));
+                a.setActivity_log_desc("Updated HRM ID " + hrm_id  + "'s password in Edit Account page");
+                a.setUser_role("HRM");
+                Calendar cal = Calendar.getInstance();
+                a.setDatetime(cal.getTime());
+                session.save(a);
+
+                session.getTransaction().commit();
+
+                mv = new ModelAndView("redirect:edit_account.htm?invalid=success");
+            }
         }
             
         return mv;
