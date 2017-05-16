@@ -1,5 +1,5 @@
 <%@include file="include/header.jsp" %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
         $(document).ready(function() {
@@ -96,8 +96,8 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-user"></i></div>
-                  <div class="count">179</div>
-                  <h3>Employees ${test}</h3>
+                  <div class="count">${numberOfEmployees}</div>
+                  <h3>Employees</h3>
                   <p>total in the company.</p>
                 </div>
               </div>
@@ -112,7 +112,7 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-pencil"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">${numberOfTraining}</div>
                   <h3>Training</h3>
                   <p>currently active.</p>
                 </div>
@@ -120,93 +120,18 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-pause"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">${numberOfIdle}</div>
                   <h3>Idle Employees</h3>
                   <p>not on training.</p>
                 </div>
               </div>
             </div>
 
-            
-
-<!--            <div class="row">
+<div class="row">
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Line graph<small>Sessions</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <canvas id="lineChart"></canvas>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Bar graph <small>Sessions</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <canvas id="mybarChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>-->
-            <div class="clearfix"></div>
-            <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Training Allocation</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <canvas id="canvasRadar"></canvas>
-                  </div>
-                </div>
-              </div>
-
-<!--              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Donut Graph <small>Sessions</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <canvas id="canvasDoughnut"></canvas>
-                  </div>
-                </div>
-              </div>-->
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Employees per Division</h2>
+                    <h2>Number of Employees per Division</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -221,14 +146,10 @@
                 </div>
               </div>
               
-            </div>
-            
-            <div class="clearfix"></div>
-<!--            <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Employees per Division</h2>
+                    <h2>Number of Training Allocated per Division</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -238,15 +159,18 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <canvas id="pieChart"></canvas>
+                    <canvas id="canvasRadar"></canvas>
                   </div>
                 </div>
               </div>
-
+              
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pie Area Graph <small>Sessions</small></h2>
+                    <h2>Number of Applicants Applied per Division</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -260,7 +184,26 @@
                   </div>
                 </div>
               </div>
-            </div>-->
+
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Number of Dismissed Employees (This Year)</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="mybarChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
         <!-- /page content -->
@@ -280,39 +223,55 @@
 
     <!-- Custom Theme Scripts -->
     <script src="${pageContext.request.contextPath}/resources/build/js/custom.min.js"></script>
+    
+<%--<c:forEach items="${divisionList}" var="list" varStatus="status">
+                <c:out value="${list.division_name}" /> <c:out value="${numberOfTrainingChart[status.index]}" /><br>
+            </c:forEach>--%>
 
     <!-- Chart.js -->
     <script>
       Chart.defaults.global.legend = {
         enabled: false
       };
+      
+      // Bar chart
+      var ctx = document.getElementById("mybarChart");
+      var mybarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+            label: '# of Dismissed Employee(s)',
+            backgroundColor: "#26B99A",
+            data: [
+            <c:forEach items="${numberOfDismissedChart}" var="list" varStatus="status">
+                <c:out value="${list}" />,
+            </c:forEach>
+                ]
+          }]
+        },
 
-      // Radar chart
-      var ctx = document.getElementById("canvasRadar");
-      var data = {
-        labels: ["Production", "Sales", "Marketing"],
-        datasets: [{
-          label: "Total Number of Training",
-          backgroundColor: "rgba(3, 88, 106, 0.2)",
-          borderColor: "rgba(3, 88, 106, 0.80)",
-          pointBorderColor: "rgba(3, 88, 106, 0.80)",
-          pointBackgroundColor: "rgba(3, 88, 106, 0.80)",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          data: [15, 30, 20]
-        }]
-      };
-
-      var canvasRadar = new Chart(ctx, {
-        type: 'radar',
-        data: data,
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
       });
 
+      
       // Pie chart
       var ctx = document.getElementById("pieChart");
       var data = {
         datasets: [{
-          data: [50, 140, 120],
+          data: [
+          <c:forEach items="${divisionList}" var="list" varStatus="status">
+                <c:out value="${numberOfEmployeeChart[status.index]}" />,
+            </c:forEach>
+                                        ],
           backgroundColor: [
             "#455C73",
             "#9B59B6",
@@ -321,9 +280,9 @@
           label: 'My dataset' // for legend
         }],
         labels: [
-          "Production",
-          "Sales",
-          "Marketing",
+          <c:forEach items="${divisionList}" var="list" varStatus="status">
+                "<c:out value="${list.division_name}" />",
+            </c:forEach>
         ]
       };
 
@@ -334,7 +293,80 @@
           legend: false
         }
       });
+      
+      // Radar chart
+      var ctx = document.getElementById("canvasRadar");
+      var data = {
+      
+      labels: [
+      <c:forEach items="${divisionList}" var="list" varStatus="status">
+                "<c:out value="${list.division_name}" />",
+            </c:forEach>
+        <!--labels: ["Production", "Sales", "Marketing"],-->
+                ],
+                
+        datasets: [{
+          label: "Total Number of Training",
+          backgroundColor: "rgba(3, 88, 106, 0.2)",
+          borderColor: "rgba(3, 88, 106, 0.80)",
+          pointBorderColor: "rgba(3, 88, 106, 0.80)",
+          pointBackgroundColor: "rgba(3, 88, 106, 0.80)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          
+          data: [
+      <c:forEach items="${divisionList}" var="list" varStatus="status">
+                <c:out value="${numberOfTrainingChart[status.index]}" />,
+            </c:forEach>
+        ]
+          
+        }]
+      };
 
+      var canvasRadar = new Chart(ctx, {
+        type: 'radar',
+        data: data,
+      });
+
+      // PolarArea chart
+      var ctx = document.getElementById("polarArea");
+      var data = {
+        datasets: [{
+          data: [
+          <c:forEach items="${divisionList}" var="list" varStatus="status">
+                <c:out value="${numberOfApplicantChart[status.index]}" />,
+            </c:forEach>
+                                        ],
+          backgroundColor: [
+            "#455C73",
+            "#9B59B6",
+            "#BDC3C7",
+            "#26B99A",
+            "#3498DB"
+          ],
+          label: 'My dataset'
+        }],
+        labels: [
+          <c:forEach items="${divisionList}" var="list" varStatus="status">
+                "<c:out value="${list.division_name}" />",
+            </c:forEach>
+        ]
+      };
+
+      var polarArea = new Chart(ctx, {
+        data: data,
+        type: 'polarArea',
+        options: {
+          scale: {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      
+      
     </script>
     <!-- /Chart.js -->
   </body>

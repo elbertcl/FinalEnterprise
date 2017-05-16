@@ -39,6 +39,12 @@ public class ManageTestQuestionsController implements Controller{
         String question = null;
         HttpSession sample = hsr.getSession();
         
+        if (sample.getAttribute("currentHRM_name") == null) {
+            mv = new ModelAndView("login_hrm");
+            mv.addObject("message", "Please do login first.");
+            return mv;
+        }
+        
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 

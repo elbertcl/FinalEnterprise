@@ -37,6 +37,13 @@ public class ListOfApplicantsController implements Controller{
         mv.addObject("display", "none");
         String action = null;
         Integer applicant_id = null;
+        HttpSession sample = hsr.getSession();
+        
+        if (sample.getAttribute("currentHRM_name") == null) {
+            mv = new ModelAndView("login_hrm");
+            mv.addObject("message", "Please do login first.");
+            return mv;
+        }
         
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -84,7 +91,7 @@ public class ListOfApplicantsController implements Controller{
             Query query = session.createQuery("delete from Applicant where applicant_id=:applicant_id").setParameter("applicant_id", applicant_id);
             query.executeUpdate();
             
-            HttpSession sample = hsr.getSession();
+//            sample = hsr.getSession();
             Activity_Log e=new Activity_Log();
             e.setUser_name((String) sample.getAttribute("currentHRM_name"));
             e.setActivity_log_desc("Deleted applicant from List Of Applicants page");

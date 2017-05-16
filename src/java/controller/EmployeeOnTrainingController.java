@@ -42,6 +42,12 @@ public class EmployeeOnTrainingController implements Controller{
         ModelAndView mv = new ModelAndView("employee_on_training");
         HttpSession sample = hsr.getSession();
         
+        if (sample.getAttribute("currentHRM_name") == null) {
+            mv = new ModelAndView("login_hrm");
+            mv.addObject("message", "Please do login first.");
+            return mv;
+        }
+        
         // View List
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

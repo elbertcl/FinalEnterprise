@@ -44,6 +44,12 @@ public class ActivityLogController implements Controller{
         ModelAndView mv = new ModelAndView("activity_log");
         HttpSession sample = hsr.getSession();
         
+        if (sample.getAttribute("currentAdmin_username") == null) {
+            mv = new ModelAndView("login_admin");
+            mv.addObject("message", "Please do login first.");
+            return mv;
+        }
+        
         // View List
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

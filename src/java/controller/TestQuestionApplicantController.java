@@ -38,6 +38,12 @@ public class TestQuestionApplicantController implements Controller{
         HttpSession sample = hsr.getSession();
         Integer currentApplicantID = (Integer) sample.getAttribute("currentApplicant_id");
         
+        if (sample.getAttribute("currentApplicant_name") == null) {
+            mv = new ModelAndView("login_applicant");
+            mv.addObject("message", "Please do login first.");
+            return mv;
+        }
+        
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
