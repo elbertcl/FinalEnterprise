@@ -9,7 +9,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.htm" class="site_title"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"> <span>HRM App</span></a>
+              <a href="manage_hrm_account.htm" class="site_title"><img src="${pageContext.request.contextPath}/resources/images/slavHRwhite.png" alt="logo"> <span>HRM App</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -56,12 +56,9 @@
                 <h3>Admin</h3>
                 <!-- <br> -->
                 <ul class="nav side-menu">
-                  <li><a href="index_admin.htm"><i class="fa fa-key"></i> Manage HRM Accounts </a>
-<!--                    <ul class="nav child_menu">
-                      <li><a href="index.htm">Dashboard</a></li>
-                    </ul>-->
-                  </li>
-                  
+                  <li><a href="manage_hrm_account.htm"><i class="fa fa-key"></i> Manage HRM Accounts </a></li>
+                  <li><a href="login_log.htm"><i class="fa fa-sign-in"></i> Login Log </a></li>
+                  <li><a href="activity_log.htm"><i class="fa fa-hourglass-half"></i> Activity Log </a></li>
                 </ul>
               </div>
             </div>

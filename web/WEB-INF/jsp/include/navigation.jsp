@@ -9,7 +9,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.htm" class="site_title"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"> <span>HRM App</span></a>
+              <a href="index.htm" class="site_title"><img src="${pageContext.request.contextPath}/resources/images/slavHRwhite.png" alt="logo"> <span>HRM App</span></a>
             </div>
 
             <div class="clearfix"></div>

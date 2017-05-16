@@ -45,6 +45,9 @@
     <bean class="controller.EmployeeDismissalController" id="EmployeeDismissalController"/>
     <bean class="controller.DismissalListController" id="DismissalListController"/>
     <bean class="controller.ManageDismissalFeeController" id="ManageDismissalFeeController"/>
+    <bean class="controller.LoginLogController" id="LoginLogController"/>
+    <bean class="controller.ActivityLogController" id="ActivityLogController"/>
+    <bean class="controller.EditAccountController "id="EditAccountController"/>
 
     <!--
     Most controllers will use the ControllerClassNameHandlerMapping above, but
@@ -87,6 +90,9 @@
                 <prop key="employee_dismissal.htm">EmployeeDismissalController</prop>
                 <prop key="dismissal_list.htm">DismissalListController</prop>
                 <prop key="manage_dismissal_fee.htm">ManageDismissalFeeController</prop>
+                
+                <prop key="login_log.htm">LoginLogController</prop>
+                <prop key="activity_log.htm">ActivityLogController</prop>
             </props>
         </property>
     </bean>
@@ -189,8 +195,8 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="manage_dismissal_fee" />-->
     
-    <bean name="EditAccountController"
+<!--    <bean name="EditAccountController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="edit_account" />
+          p:viewName="edit_account" />-->
 
 </beans>
