@@ -92,7 +92,7 @@
         });
         
         function deleteConfirm() {
-            return confirm('Are you sure you want to delete the training?');
+            return confirm('Are you sure you want to delete the training? Any employee that is currently in the training will be taken out from the training.');
         }
      </script>
  
